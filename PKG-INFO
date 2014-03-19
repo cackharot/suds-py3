@@ -1,10 +1,11 @@
 Metadata-Version: 1.0
-Name: suds-fc
-Version: 0.4.1
+Name: suds-py3
+Version: 1.0.0.0
 Summary: Lightweight SOAP client
-Home-page: https://github.com/futurecolors/suds
-Author: Future Colors (original Jeff Ortel)
-Author-email: info@futurecolors.ru
-License: UNKNOWN
-Description: UNKNOWN
-Platform: UNKNOWN
+Home-page: https://github.com/cackharot/suds-py3
+Author: Cackharot (original Jeff Ortel)
+Author-email: cackharot@gmail.com
+License: LGPL
+Description: The "suds-p3" is a lightweight soap-based client for python3 licensed under LGPL. This is a mirror of http://svn.fedorahosted.org/svn/suds/trunk/ supporting Python3 and some fixes.
+Keywords: soap,wsdl,basic http binding,basic auth
+Platform: Python3
