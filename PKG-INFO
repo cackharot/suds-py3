@@ -1,4 +1,4 @@
-Metadata-Version: 1.0
+Metadata-Version: 1.1
 Name: suds-py3
 Version: 1.0.0.0
 Summary: Lightweight SOAP client
@@ -9,3 +9,8 @@ License: LGPL
 Description: The "suds-p3" is a lightweight soap-based client for python3 licensed under LGPL. This is a mirror of http://svn.fedorahosted.org/svn/suds/trunk/ supporting Python3 and some fixes.
 Keywords: soap,wsdl,basic http binding,basic auth
 Platform: Python3
+Classifier: Classifier: Programming Language :: Python
+Classifier: Classifier: Programming Language :: Python :: 3
+Classifier: Classifier: Intended Audience :: Developers
+Classifier: Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+Classifier: Classifier: Operating System :: OS Independent

@@ -31,4 +31,11 @@ setup(
 	license="LGPL",
 	keywords="soap, wsdl,basic http binding, basic auth",
 	platforms="Python3",
+	classifiers  = [
+	"Classifier: Programming Language :: Python",
+	"Classifier: Programming Language :: Python :: 3",
+	"Classifier: Intended Audience :: Developers",
+	"Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+	"Classifier: Operating System :: OS Independent",
+	],
 )
