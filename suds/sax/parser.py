@@ -27,16 +27,14 @@ containing the prefix and the URI.  Eg: I{('tns', 'http://myns')}
 """
 
 from logging import getLogger
-import suds.metrics
-from suds import *
-from suds.sax import *
+from suds.compat import unicode
+from suds import metrics
 from suds.sax.document import Document
 from suds.sax.element import Element
 from suds.sax.text import Text
 from suds.sax.attribute import Attribute
-from xml.sax import make_parser, InputSource, ContentHandler, parseString
+from xml.sax import make_parser, ContentHandler, parseString
 from xml.sax.handler import feature_external_ges
-from io import StringIO
 
 log = getLogger(__name__)
 
@@ -53,7 +51,7 @@ class Handler(ContentHandler):
         for a in attrs.getNames():
             n = unicode(a)
             v = unicode(attrs.getValue(a))
-            attribute = Attribute(n,v)
+            attribute = Attribute(n, v)
             if self.mapPrefix(node, attribute):
                 continue
             node.append(attribute)

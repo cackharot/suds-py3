@@ -20,11 +20,13 @@ I{basic} schema objects.
 """
 
 from logging import getLogger
-from suds import *
-from suds.xsd import *
-from suds.xsd.sxbase import *
-from suds.xsd.query import *
-from suds.sax import splitPrefix, Namespace
+from suds import TypeNotFound
+from suds.xsd import Filter, Content
+from suds.xsd.sxbase import NodeFinder, SchemaObject
+from suds.xsd.query import (
+    TypeQuery, GroupQuery, AttrGroupQuery, ElementQuery, AttrQuery,
+)
+from suds.sax import Namespace
 from suds.transport import TransportError
 from suds.reader import DocumentReader
 from urllib.parse import urljoin
@@ -301,6 +303,7 @@ class All(Collection):
     def all(self):
         return True
 
+
 class Choice(Collection):
     """
     Represents an (xsd) schema <xs:choice/> node.
@@ -376,10 +379,10 @@ class Element(TypedContent):
         TypedContent.__init__(self, schema, root)
         a = root.get('form')
         if a is not None:
-            self.form_qualified = ( a == 'qualified' )
+            self.form_qualified = a == 'qualified'
         a = self.root.get('nillable')
         if a is not None:
-            self.nillable = ( a in ('1', 'true') )
+            self.nillable = a in ('1', 'true')
         self.implany()
 
     def implany(self):
@@ -390,10 +393,8 @@ class Element(TypedContent):
         @return: self
         @rtype: L{Element}
         """
-        if self.type is None and \
-            self.ref is None and \
-            self.root.isempty():
-                self.type = self.anytype()
+        if self.type is None and self.ref is None and self.root.isempty():
+            self.type = self.anytype()
         return self
 
     def childtags(self):
@@ -433,7 +434,7 @@ class Element(TypedContent):
 
     def anytype(self):
         """ create an xsd:anyType reference """
-        p,u = Namespace.xsdns
+        p, u = Namespace.xsdns
         mp = self.root.findPrefix(u)
         if mp is None:
             mp = p
@@ -478,7 +479,7 @@ class Extension(SchemaObject):
         self.prepend(self.rawchildren, other.rawchildren, filter)
 
     def extension(self):
-        return ( self.ref is not None )
+        return self.ref is not None
 
     def description(self):
         return ('ref',)
@@ -533,7 +534,11 @@ class Import(SchemaObject):
         if self.opened:
             return
         self.opened = True
-        log.debug('%s, importing ns="%s", location="%s"', self.id, self.ns[1], self.location)
+        log.debug('%s, importing ns="%s", location="%s"',
+                  self.id,
+                  self.ns[1],
+                  self.location
+                  )
         result = self.locate()
         if result is None:
             if self.location is None:
@@ -632,7 +637,6 @@ class Include(SchemaObject):
             if self.schema.tns[1] != tns:
                 raise Exception('%s mismatch' % TNS)
 
-
     def description(self):
         return ('location')
 
@@ -661,7 +665,7 @@ class Attribute(TypedContent):
         return self.root.get('default', default='')
 
     def optional(self):
-        return ( self.use != 'required' )
+        return self.use != 'required'
 
     def dependencies(self):
         deps = []
@@ -707,26 +711,25 @@ class Factory:
     @type tags: {tag:fn,}
     """
 
-    tags =\
-    {
-        'import' : Import,
-        'include' : Include,
-        'complexType' : Complex,
-        'group' : Group,
-        'attributeGroup' : AttributeGroup,
-        'simpleType' : Simple,
-        'list' : List,
-        'element' : Element,
-        'attribute' : Attribute,
-        'sequence' : Sequence,
-        'all' : All,
-        'choice' : Choice,
-        'complexContent' : ComplexContent,
-        'simpleContent' : SimpleContent,
-        'restriction' : Restriction,
-        'enumeration' : Enumeration,
-        'extension' : Extension,
-        'any' : Any,
+    tags = {
+        'import': Import,
+        'include': Include,
+        'complexType': Complex,
+        'group': Group,
+        'attributeGroup': AttributeGroup,
+        'simpleType': Simple,
+        'list': List,
+        'element': Element,
+        'attribute': Attribute,
+        'sequence': Sequence,
+        'all': All,
+        'choice': Choice,
+        'complexContent': ComplexContent,
+        'simpleContent': SimpleContent,
+        'restriction': Restriction,
+        'enumeration': Enumeration,
+        'extension': Extension,
+        'any': Any,
     }
 
     @classmethod
@@ -807,8 +810,6 @@ class Factory:
         for i in imports:
             children.remove(i)
         return (children, imports, attributes, elements, types, groups, agrps)
-
-
 
 
 #######################################################

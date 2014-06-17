@@ -18,13 +18,13 @@
 Provides XML I{attribute} classes.
 """
 
-import suds.sax
 from logging import getLogger
-from suds import *
-from suds.sax import *
+from suds.sax import Namespace, splitPrefix
 from suds.sax.text import Text
+from suds.compat import unicode
 
 log = getLogger(__name__)
+
 
 class Attribute:
     """
@@ -107,7 +107,7 @@ class Attribute:
         @return: True when has I{text}.
         @rtype: boolean
         """
-        return ( self.value is not None and len(self.value) )
+        return self.value is not None and len(self.value)
 
     def namespace(self):
         """
@@ -147,12 +147,12 @@ class Attribute:
         if name is None:
             byname = True
         else:
-            byname = ( self.name == name )
+            byname = self.name == name
         if ns is None:
             byns = True
         else:
-            byns = ( self.namespace()[1] == ns[1] )
-        return ( byname and byns )
+            byns = self.namespace()[1] == ns[1]
+        return byname and byns
 
     def __eq__(self, rhs):
         """ equals operator """
@@ -163,9 +163,10 @@ class Attribute:
 
     def __repr__(self):
         """ get a string representation """
-        return \
-            'attr (prefix=%s, name=%s, value=(%s))' %\
-                (self.prefix, self.name, self.value)
+        return 'attr (prefix=%s, name=%s, value=(%s))' % (
+            self.prefix,
+            self.name,
+            self.value)
 
     def __str__(self):
         """ get an xml string representation """

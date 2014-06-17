@@ -29,6 +29,7 @@ import time
 import datetime
 import re
 
+from suds.compat import unicode
 
 SNIPPET_DATE = r'(?P<year>\d{1,})-(?P<month>\d{1,2})-(?P<day>\d{1,2})'
 SNIPPET_TIME = r'(?P<hour>\d{1,2}):(?P<minute>\d{1,2}):(?P<second>\d{1,2})' + \
@@ -89,7 +90,7 @@ class Date(object):
         """
         match_result = RE_DATE.match(value)
         if match_result is None:
-           raise ValueError('date data has invalid format "%s"' % (value, ))
+            raise ValueError('date data has invalid format "%s"' % value)
 
         value = date_from_match(match_result)
 
@@ -141,7 +142,7 @@ class Time(object):
         """
         match_result = RE_TIME.match(value)
         if match_result is None:
-           raise ValueError('date data has invalid format "%s"' % (value, ))
+            raise ValueError('date data has invalid format "%s"' % (value, ))
 
         date = time_from_match(match_result)
         tzinfo = tzinfo_from_match(match_result)
@@ -179,14 +180,14 @@ class DateTime(object):
         elif isinstance(value, str):
             self.value = self.parse(value)
         else:
-            raise ValueError('invalid type for DateTime(): %s' % (type(value), ))
+            raise ValueError('invalid type for DateTime(): %s' % type(value))
 
     @staticmethod
     def parse(value):
         """Parse the string datetime.
 
-        This supports the subset of ISO8601 used by xsd:dateTime, but is lenient
-        with what is accepted, handling most reasonable syntax.
+        This supports the subset of ISO8601 used by xsd:dateTime, but is
+        lenient with what is accepted, handling most reasonable syntax.
 
         @param value: A datetime string.
         @type value: str
@@ -196,7 +197,7 @@ class DateTime(object):
         """
         match_result = RE_DATETIME.match(value)
         if match_result is None:
-           raise ValueError('date data has invalid format "%s"' % (value, ))
+            raise ValueError('date data has invalid format "%s"' % (value, ))
 
         date = date_from_match(match_result)
         time = time_from_match(match_result)

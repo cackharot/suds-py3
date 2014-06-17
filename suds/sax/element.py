@@ -19,16 +19,13 @@ Provides XML I{element} classes.
 """
 
 from logging import getLogger
-from suds import *
-from suds.sax import *
+from suds.compat import unicode, basestring
+from suds.sax import Namespace, splitPrefix
 from suds.sax.text import Text
 from suds.sax.attribute import Attribute
-import sys
-if sys.version_info < (2, 4, 0):
-    from sets import Set as set
-    del sys
 
 log = getLogger(__name__)
+
 
 class Element:
     """
@@ -53,21 +50,22 @@ class Element:
     @cvar specialprefixes: A dictionary of builtin-special prefixes.
     """
 
-    matcher = \
-    {
-        'eq': lambda a,b: a == b,
-        'startswith' : lambda a,b: a.startswith(b),
-        'endswith' : lambda a,b: a.endswith(b),
-        'contains' : lambda a,b: b in a
+    matcher = {
+        'eq': lambda a, b: a == b,
+        'startswith': lambda a, b: a.startswith(b),
+        'endswith': lambda a, b: a.endswith(b),
+        'contains': lambda a, b: b in a
     }
 
-    specialprefixes = { Namespace.xmlns[0] : Namespace.xmlns[1]  }
+    specialprefixes = {
+        Namespace.xmlns[0]: Namespace.xmlns[1]
+    }
 
     @classmethod
     def buildPath(self, parent, path):
         """
-        Build the specifed pat as a/b/c where missing intermediate nodes are built
-        automatically.
+        Build the specifed pat as a/b/c where missing intermediate nodes are
+        built automatically.
         @param parent: A parent element on which the path is built.
         @type parent: I{Element}
         @param path: A simple path separated by (/).
@@ -131,7 +129,6 @@ class Element:
         self.prefix = p
         if p is not None and u is not None:
             self.addPrefix(p, u)
-            #print('Prefixes %s = %s' % (p,u))
         return self
 
     def qname(self):
@@ -217,7 +214,6 @@ class Element:
             pass
         return self
 
-
     def get(self, name, ns=None, default=None):
         """
         Get the value of an attribute by name.
@@ -282,7 +278,7 @@ class Element:
         @return: True when has I{text}.
         @rtype: boolean
         """
-        return ( self.text is not None and len(self.text) )
+        return self.text is not None and len(self.text)
 
     def namespace(self):
         """
@@ -307,7 +303,6 @@ class Element:
         p = self
         while p is not None:
             if p.expns is not None:
-                #print('Expns %s' % str(p.expns))
                 return (None, p.expns)
             else:
                 p = p.parent
@@ -454,7 +449,7 @@ class Element:
                 ns = node.resolvePrefix(prefix)
             result = node.getChild(name, ns)
             if result is None:
-                break;
+                break
             else:
                 node = result
         return result
@@ -636,7 +631,7 @@ class Element:
         if self.parent is None:
             return
         _pref = []
-        for p,u in self.nsprefixes.items():
+        for p, u in self.nsprefixes.items():
             if p in self.parent.nsprefixes:
                 pu = self.parent.nsprefixes[p]
                 if pu == u:
@@ -645,7 +640,7 @@ class Element:
             if p != self.parent.prefix:
                 self.parent.nsprefixes[p] = u
                 _pref.append(p)
-				
+
         for x in _pref:
             del self.nsprefixes[x]
 
@@ -672,8 +667,8 @@ class Element:
         """
         Normalize the namespace prefixes.
         This generates unique prefixes for all namespaces.  Then retrofits all
-        prefixes and prefix mappings.  Further, it will retrofix attribute values
-        that have values containing (:).
+        prefixes and prefix mappings.  Further, it will retrofix attribute
+        values that have values containing (:).
         @return: self
         @rtype: L{Element}
         """
@@ -690,13 +685,12 @@ class Element:
         """
         noattrs = not len(self.attributes)
         nochildren = not len(self.children)
-        notext = ( self.text is None )
-        nocontent = ( nochildren and notext )
+        notext = self.text is None
+        nocontent = nochildren and notext
         if content:
             return nocontent
         else:
-            return ( nocontent and noattrs )
-
+            return nocontent and noattrs
 
     def isnil(self):
         """
@@ -709,7 +703,7 @@ class Element:
         if nilattr is None:
             return False
         else:
-            return ( nilattr.getValue().lower() == 'true' )
+            return nilattr.getValue().lower() == 'true'
 
     def setnil(self, flag=True):
         """
@@ -721,7 +715,7 @@ class Element:
         @rtype: L{Element}
         """
         p, u = Namespace.xsins
-        name  = ':'.join((p, 'nil'))
+        name = ':'.join((p, 'nil'))
         self.set(name, str(flag).lower())
         self.addPrefix(p, u)
         if flag:
@@ -738,7 +732,7 @@ class Element:
         """
         if ns is None:
             return
-        if not isinstance(ns, (tuple,list)):
+        if not isinstance(ns, (tuple, list)):
             raise Exception('namespace must be tuple')
         if ns[0] is None:
             self.expns = ns[1]
@@ -754,7 +748,7 @@ class Element:
         @return: A I{pretty} string.
         @rtype: basestring
         """
-        tab = '%*s'%(indent*3,'')
+        tab = '%*s' % (indent * 3, '')
         result = []
         result.append('%s<%s' % (tab, self.qname()))
         result.append(self.nsdeclarations())
@@ -815,11 +809,11 @@ class Element:
             if self.expns is not None:
                 d = ' xmlns="%s"' % self.expns
                 s.append(d)
-        for item in self.nsprefixes.items():
-            (p,u) = item
+        for p, u in self.nsprefixes.items():
             if self.parent is not None:
                 ns = self.parent.resolvePrefix(p)
-                if ns[1] == u: continue
+                if ns[1] == u:
+                    continue
             d = ' xmlns:%s="%s"' % (p, u)
             s.append(d)
         return ''.join(s)
@@ -837,12 +831,12 @@ class Element:
         if name is None:
             byname = True
         else:
-            byname = ( self.name == name )
+            byname = self.name == name
         if ns is None:
             byns = True
         else:
-            byns = ( self.namespace()[1] == ns[1] )
-        return ( byname and byns )
+            byns = self.namespace()[1] == ns[1]
+        return byname and byns
 
     def branch(self):
         """
@@ -893,7 +887,6 @@ class Element:
         for p in pruned:
             self.children.remove(p)
 
-
     def __childrenAtPath(self, parts):
         result = []
         node = self
@@ -934,12 +927,11 @@ class Element:
         if isinstance(index, basestring):
             self.set(index, value)
         else:
-            if index < len(self.children) and \
-                isinstance(value, Element):
+            if index < len(self.children) and isinstance(value, Element):
                 self.children.insert(index, value)
 
     def __eq__(self, rhs):
-        return  rhs is not None and \
+        return rhs is not None and \
             isinstance(rhs, Element) and \
             self.name == rhs.name and \
             self.namespace()[1] == rhs.namespace()[1]
@@ -974,7 +966,7 @@ class NodeIterator:
         """
         self.pos = 0
         self.children = parent.children
-		
+
     def __next__(self):
         return self.next()
 
@@ -1114,8 +1106,9 @@ class PrefixNormalizer:
         @param a: An attribute.
         @type a: L{Attribute}
         """
-        p,name = splitPrefix(a.getValue())
-        if p is None: return
+        p, name = splitPrefix(a.getValue())
+        if p is None:
+            return
         ns = a.resolvePrefix(p)
         if self.permit(ns):
             u = ns[1]
@@ -1150,8 +1143,4 @@ class PrefixNormalizer:
         @return: True if to be skipped.
         @rtype: boolean
         """
-        return ns is None or \
-            ( ns == Namespace.default ) or \
-            ( ns == Namespace.xsdns ) or \
-            ( ns == Namespace.xsins) or \
-            ( ns == Namespace.xmlns )
+        return ns in (None, Namespace.default, Namespace.xsdns, Namespace.xsins, Namespace.xmlns)

@@ -18,8 +18,6 @@
 The I{wsse} module provides WS-Security.
 """
 
-from logging import getLogger
-from suds import *
 from suds.sudsobject import Object
 from suds.sax.element import Element
 from suds.sax.date import DateTime, UtcTimezone
@@ -32,18 +30,19 @@ except ImportError:
     from md5 import md5
 
 
-dsns = \
-    ('ds',
-     'http://www.w3.org/2000/09/xmldsig#')
-wssens = \
-    ('wsse',
-     'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd')
-wsuns = \
-    ('wsu',
-     'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd')
-wsencns = \
-    ('wsenc',
-     'http://www.w3.org/2001/04/xmlenc#')
+dsns = ('ds', 'http://www.w3.org/2000/09/xmldsig#')
+wssens = (
+    'wsse',
+    'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
+    )
+wsuns = (
+    'wsu',
+    'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'
+    )
+wsencns = (
+    'wsenc',
+    'http://www.w3.org/2001/04/xmlenc#'
+    )
 
 
 class Security(Object):
@@ -94,7 +93,7 @@ class Token(Object):
 
     @classmethod
     def sysdate(cls):
-        utc = DateTime(self.utc())
+        utc = DateTime(cls.utc())
         return str(utc)
 
     def __init__(self):
@@ -157,7 +156,6 @@ class UsernameToken(Token):
             self.created = Token.utc()
         else:
             self.created = dt
-
 
     def xml(self):
         """

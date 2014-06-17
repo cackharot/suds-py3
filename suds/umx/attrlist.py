@@ -18,8 +18,6 @@
 Provides filtered attribute list classes.
 """
 
-from suds import *
-from suds.umx import *
 from suds.sax import Namespace
 
 
@@ -45,12 +43,14 @@ class AttrList:
         @rtype: I{generator}
         """
         for a in self.raw:
-            if self.skip(a): continue
+            if self.skip(a):
+                continue
             yield a
 
     def rlen(self):
         """
-        Get the number of I{real} attributes which exclude xs and xml attributes.
+        Get the number of I{real} attributes which exclude xs and xml
+        attributes.
         @return: A count of I{real} attributes.
         @rtype: L{int}
         """
@@ -85,4 +85,4 @@ class AttrList:
             'http://schemas.xmlsoap.org/soap/envelope/',
             'http://www.w3.org/2003/05/soap-envelope',
         )
-        return ( Namespace.xs(ns) or ns[1] in skip )
+        return Namespace.xs(ns) or ns[1] in skip

@@ -22,9 +22,8 @@ import urllib.request as u2
 from urllib.error import HTTPError
 from base64 import b64encode
 import socket
-from suds.transport import *
+from suds.transport import Transport, TransportError, Reply
 from suds.properties import Unskin
-from urllib.parse import urlparse
 from http.cookiejar import CookieJar
 from logging import getLogger
 
@@ -77,12 +76,10 @@ class HttpTransport(Transport):
             log.debug('sending:\n%s', request)
             fp = self.u2open(u2request)
             self.getcookies(fp, u2request)
-            #result = Reply(200, fp.headers.dict, fp.read())
-            #print(str(fp))
             result = Reply(200, fp.headers, fp.read())
             log.debug('received:\n%s', result)
         except HTTPError as e:
-            if e.code in (202,204):
+            if e.code in (202, 204):
                 result = None
             else:
                 raise TransportError(e.msg, e.code, e.fp)

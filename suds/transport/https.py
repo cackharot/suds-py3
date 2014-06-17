@@ -18,11 +18,11 @@
 Contains classes for basic HTTP (authenticated) transport implementations.
 """
 
-import urllib3 as u2
-from suds.transport import *
 from suds.transport.http import HttpTransport
 from logging import getLogger
-from urllib.request import HTTPPasswordMgrWithDefaultRealm, HTTPBasicAuthHandler
+from urllib.request import (
+    HTTPPasswordMgrWithDefaultRealm,
+    HTTPBasicAuthHandler)
 
 log = getLogger(__name__)
 
@@ -58,11 +58,11 @@ class HttpAuthenticated(HttpTransport):
 
     def open(self, request):
         self.addcredentials(request)
-        return  HttpTransport.open(self, request)
+        return HttpTransport.open(self, request)
 
     def send(self, request):
         self.addcredentials(request)
-        return  HttpTransport.send(self, request)
+        return HttpTransport.send(self, request)
 
     def addcredentials(self, request):
         credentials = self.credentials()

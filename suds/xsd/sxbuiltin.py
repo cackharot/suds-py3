@@ -20,9 +20,7 @@ XSD I{builtin} schema objects.
 """
 
 from logging import getLogger
-from suds import *
-from suds.xsd import *
-from suds.sax.date import *
+from suds.compat import basestring
 from suds.xsd.sxbase import XBuiltin
 import datetime as dt
 
@@ -60,8 +58,18 @@ class XBoolean(XBuiltin):
     """
 
     translation = (
-        { '1':True,'true':True,'0':False,'false':False },
-        { True:'true',1:'true',False:'false',0:'false' },
+        {
+            '1': True,
+            'true': True,
+            '0': False,
+            'false': False
+        },
+        {
+            True: 'true',
+            1: 'true',
+            False: 'false',
+            0: 'false'
+        },
     )
 
     def translate(self, value, topython=True):
@@ -71,7 +79,7 @@ class XBoolean(XBuiltin):
             else:
                 return None
         else:
-            if isinstance(value, (bool,int)):
+            if isinstance(value, (bool, int)):
                 return XBoolean.translation[1].get(value)
             else:
                 return value
@@ -94,6 +102,7 @@ class XInteger(XBuiltin):
             else:
                 return value
 
+
 class XLong(XBuiltin):
     """
     Represents an (xsd) xs:long builtin type.
@@ -102,11 +111,11 @@ class XLong(XBuiltin):
     def translate(self, value, topython=True):
         if topython:
             if isinstance(value, basestring) and len(value):
-                return long(value)
+                return int(value)
             else:
                 return None
         else:
-            if isinstance(value, (int,long)):
+            if isinstance(value, int):
                 return str(value)
             else:
                 return value
@@ -138,12 +147,12 @@ class XDate(XBuiltin):
     def translate(self, value, topython=True):
         if topython:
             if isinstance(value, basestring) and len(value):
-                return Date(value).value
+                return dt.Date(value).value
             else:
                 return None
         else:
             if isinstance(value, dt.date):
-                return str(Date(value))
+                return str(dt.Date(value))
             else:
                 return value
 
@@ -156,12 +165,12 @@ class XTime(XBuiltin):
     def translate(self, value, topython=True):
         if topython:
             if isinstance(value, basestring) and len(value):
-                return Time(value).value
+                return dt.Time(value).value
             else:
                 return None
         else:
             if isinstance(value, dt.time):
-                return str(Time(value))
+                return str(dt.Time(value))
             else:
                 return value
 
@@ -174,75 +183,74 @@ class XDateTime(XBuiltin):
     def translate(self, value, topython=True):
         if topython:
             if isinstance(value, basestring) and len(value):
-                return DateTime(value).value
+                return dt.DateTime(value).value
             else:
                 return None
         else:
             if isinstance(value, dt.datetime):
-                return str(DateTime(value))
+                return str(dt.DateTime(value))
             else:
                 return value
 
 
 class Factory:
 
-    tags =\
-    {
+    tags = {
         # any
-        'anyType' : XAny,
+        'anyType': XAny,
         # strings
-        'string' : XString,
-        'normalizedString' : XString,
-        'ID' : XString,
-        'Name' : XString,
-        'QName' : XString,
-        'NCName' : XString,
-        'anySimpleType' : XString,
-        'anyURI' : XString,
-        'NOTATION' : XString,
-        'token' : XString,
-        'language' : XString,
-        'IDREFS' : XString,
-        'ENTITIES' : XString,
-        'IDREF' : XString,
-        'ENTITY' : XString,
-        'NMTOKEN' : XString,
-        'NMTOKENS' : XString,
+        'string': XString,
+        'normalizedString': XString,
+        'ID': XString,
+        'Name': XString,
+        'QName': XString,
+        'NCName': XString,
+        'anySimpleType': XString,
+        'anyURI': XString,
+        'NOTATION': XString,
+        'token': XString,
+        'language': XString,
+        'IDREFS': XString,
+        'ENTITIES': XString,
+        'IDREF': XString,
+        'ENTITY': XString,
+        'NMTOKEN': XString,
+        'NMTOKENS': XString,
         # binary
-        'hexBinary' : XString,
-        'base64Binary' : XString,
+        'hexBinary': XString,
+        'base64Binary': XString,
         # integers
-        'int' : XInteger,
-        'integer' : XInteger,
-        'unsignedInt' : XInteger,
-        'positiveInteger' : XInteger,
-        'negativeInteger' : XInteger,
-        'nonPositiveInteger' : XInteger,
-        'nonNegativeInteger' : XInteger,
+        'int': XInteger,
+        'integer': XInteger,
+        'unsignedInt': XInteger,
+        'positiveInteger': XInteger,
+        'negativeInteger': XInteger,
+        'nonPositiveInteger': XInteger,
+        'nonNegativeInteger': XInteger,
         # longs
-        'long' : XLong,
-        'unsignedLong' : XLong,
+        'long': XLong,
+        'unsignedLong': XLong,
         # shorts
-        'short' : XInteger,
-        'unsignedShort' : XInteger,
-        'byte' : XInteger,
-        'unsignedByte' : XInteger,
+        'short': XInteger,
+        'unsignedShort': XInteger,
+        'byte': XInteger,
+        'unsignedByte': XInteger,
         # floats
-        'float' : XFloat,
-        'double' : XFloat,
-        'decimal' : XFloat,
+        'float': XFloat,
+        'double': XFloat,
+        'decimal': XFloat,
         # dates & times
-        'date' : XDate,
-        'time' : XTime,
+        'date': XDate,
+        'time': XTime,
         'dateTime': XDateTime,
         'duration': XString,
-        'gYearMonth' : XString,
-        'gYear' : XString,
-        'gMonthDay' : XString,
-        'gDay' : XString,
-        'gMonth' : XString,
+        'gYearMonth': XString,
+        'gYear': XString,
+        'gMonthDay': XString,
+        'gDay': XString,
+        'gMonth': XString,
         # boolean
-        'boolean' : XBoolean,
+        'boolean': XBoolean,
     }
 
     @classmethod

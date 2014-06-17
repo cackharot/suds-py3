@@ -18,7 +18,7 @@
 Suds basic options classes.
 """
 
-from suds.properties import *
+from suds.properties import AutoLinker, Unskin, Skin, Definition
 from suds.wsse import Security
 from suds.xsd.doctor import Doctor
 from suds.transport import Transport

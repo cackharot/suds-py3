@@ -21,8 +21,7 @@ found in the document.
 """
 
 from logging import getLogger
-from suds import *
-from suds.sax import splitPrefix
+from suds import objid, TypeNotFound, MethodNotFound
 from suds.sax.element import Element
 from suds.bindings.document import Document
 from suds.bindings.rpc import RPC, Encoded
@@ -30,10 +29,9 @@ from suds.xsd import qualify, Namespace
 from suds.xsd.schema import Schema, SchemaCollection
 from suds.xsd.query import ElementQuery
 from suds.sudsobject import Object, Facade, Metadata
-from suds.reader import DocumentReader, DefinitionsReader
+from suds.reader import DocumentReader
 from urllib.parse import urljoin
 import re
-from .soaparray import *
 
 log = getLogger(__name__)
 
@@ -176,7 +174,8 @@ class Definitions(WObject):
         """ Add child objects using the factory """
         for c in root.getChildren(ns=wsdlns):
             child = Factory.create(c, self)
-            if child is None: continue
+            if child is None:
+                continue
             self.children.append(child)
             if isinstance(child, Import):
                 self.imports.append(child)
@@ -214,7 +213,7 @@ class Definitions(WObject):
             for root in t.contents():
                 schema = Schema(root, self.url, self.options, container)
                 container.add(schema)
-        if not len(container): # empty
+        if not len(container):  # empty
             root = Element.buildPath(self.root, 'types/schema')
             schema = Schema(root, self.url, self.options, container)
             container.add(schema)
@@ -226,9 +225,9 @@ class Definitions(WObject):
     def add_methods(self, service):
         """ Build method view for service """
         bindings = {
-            'document/literal' : Document(self),
-            'rpc/literal' : RPC(self),
-            'rpc/encoded' : Encoded(self)
+            'document/literal': Document(self),
+            'rpc/literal': RPC(self),
+            'rpc/encoded': Encoded(self)
         }
         for p in service.ports:
             binding = p.binding
@@ -372,10 +371,10 @@ class Types(WObject):
         return self.definitions.schema
 
     def local(self):
-        return ( self.definitions.schema is None )
+        return self.definitions.schema is None
 
     def imported(self):
-        return ( not self.local() )
+        return not self.local()
 
     def __gt__(self, other):
         return isinstance(other, Import)
@@ -522,7 +521,7 @@ class PortType(NamedObject):
         """
         try:
             return self.operations[name]
-        except Exception as e:
+        except Exception:
             raise MethodNotFound(name)
 
     def __gt__(self, other):
@@ -559,7 +558,7 @@ class Binding(NamedObject):
     def soaproot(self):
         """ get the soap:binding """
         for ns in (soapns, soap12ns):
-            sr =  self.root.getChild('binding', ns=ns)
+            sr = self.root.getChild('binding', ns=ns)
             if sr is not None:
                 return sr
         return None
@@ -686,8 +685,7 @@ class Binding(NamedObject):
         """
         ptop = self.type.operation(op.name)
         if ptop is None:
-            raise Exception(\
-                "operation '%s' not defined in portType" % op.name)
+            raise Exception("operation '%s' not defined in portType" % op.name)
         soap = op.soap
         parts = soap.input.body.parts
         if len(parts):
@@ -730,8 +728,7 @@ class Binding(NamedObject):
                     header.part = p
                     break
             if pn == header.part:
-                raise Exception(\
-                    "message '%s' has not part named '%s'" % (ref, pn))
+                raise Exception("message '%s' has not part named '%s'" % (ref, pn))
 
     def resolvefaults(self, definitions, op):
         """
@@ -744,8 +741,7 @@ class Binding(NamedObject):
         """
         ptop = self.type.operation(op.name)
         if ptop is None:
-            raise Exception(\
-                "operation '%s' not defined in portType" % op.name)
+            raise Exception("operation '%s' not defined in portType" % op.name)
         soap = op.soap
         for fault in soap.faults:
             for f in ptop.faults:
@@ -754,8 +750,7 @@ class Binding(NamedObject):
                     continue
             if hasattr(fault, 'parts'):
                 continue
-            raise Exception(\
-                "fault '%s' not defined in portType '%s'" % (fault.name, self.type.name))
+            raise Exception("fault '%s' not defined in portType '%s'" % (fault.name, self.type.name))
 
     def operation(self, name):
         """
@@ -772,7 +767,7 @@ class Binding(NamedObject):
             raise MethodNotFound(name)
 
     def __gt__(self, other):
-        return ( not isinstance(other, Service) )
+        return not isinstance(other, Service)
 
 
 class Port(NamedObject):
@@ -895,14 +890,13 @@ class Factory:
     @type tags: dict
     """
 
-    tags =\
-    {
-        'import' : Import,
-        'types' : Types,
-        'message' : Message,
-        'portType' : PortType,
-        'binding' : Binding,
-        'service' : Service,
+    tags = {
+        'import': Import,
+        'types': Types,
+        'message': Message,
+        'portType': PortType,
+        'binding': Binding,
+        'service': Service,
     }
 
     @classmethod

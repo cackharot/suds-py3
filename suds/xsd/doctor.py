@@ -20,7 +20,7 @@ schema(s).
 """
 
 from logging import getLogger
-from suds.sax import splitPrefix, Namespace
+from suds.sax import Namespace
 from suds.sax.element import Element
 from suds.plugin import DocumentPlugin, DocumentContext
 
@@ -97,11 +97,11 @@ class TnsFilter:
         """
         tns = root.get('targetNamespace')
         if len(self.tns):
-            matched = ( tns in self.tns )
+            matched = tns in self.tns
         else:
             matched = 1
-        itself = ( ns == tns )
-        return ( matched and not itself )
+        itself = ns == tns
+        return matched and not itself
 
 
 class Import:
@@ -223,4 +223,3 @@ class ImportDoctor(Doctor, DocumentPlugin):
         for child in node:
             context.document = child
             self.parsed(context)
-

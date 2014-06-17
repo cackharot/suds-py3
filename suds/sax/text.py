@@ -18,8 +18,7 @@
 Contains XML text classes.
 """
 
-from suds import *
-from suds.sax import *
+from suds import sax
 
 
 class Text(str):
@@ -34,7 +33,7 @@ class Text(str):
 
     @classmethod
     def __valid(cls, *args):
-        return ( len(args) and args[0] is not None )
+        return len(args) and args[0] is not None
 
     def __new__(cls, *args, **kwargs):
         if cls.__valid(*args):
@@ -55,7 +54,7 @@ class Text(str):
         """
         if not self.escaped:
             post = sax.encoder.encode(self)
-            escaped = ( post != self )
+            escaped = post != self
             return Text(post, lang=self.lang, escaped=escaped)
         return self
 
@@ -78,7 +77,7 @@ class Text(str):
         joined = u''.join((self, other))
         result = Text(joined, lang=self.lang, escaped=self.escaped)
         if isinstance(other, Text):
-            result.escaped = ( self.escaped or other.escaped )
+            result.escaped = self.escaped or other.escaped
         return result
 
     def __repr__(self):

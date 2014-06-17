@@ -19,9 +19,8 @@ The I{query} module defines a class for performing schema queries.
 """
 
 from logging import getLogger
-from suds import *
-from suds.sudsobject import *
-from suds.xsd import qualify, isqref
+from suds import Object, Repr, objid, tostr
+from suds.xsd import isqref
 from suds.xsd.sxbuiltin import Factory
 
 log = getLogger(__name__)
@@ -66,7 +65,7 @@ class Query(Object):
         """
         if result is None:
             return True
-        reject = ( result in self.history )
+        reject = result in self.history
         if reject:
             log.debug('result %s, rejected by\n%s', Repr(result), self)
         return reject
@@ -147,9 +146,9 @@ class GroupQuery(Query):
 
 class AttrQuery(Query):
     """
-    Schema query class that searches for Attribute references in
-    the specified schema.  Matches on root Attribute by qname first, then searches
-    deep into the document.
+    Schema query class that searches for Attribute references in the specified
+    schema.  Matches on root Attribute by qname first, then searches deep into
+    the document.
     """
 
     def execute(self, schema):
@@ -185,9 +184,9 @@ class AttrGroupQuery(Query):
 
 class ElementQuery(Query):
     """
-    Schema query class that searches for Element references in
-    the specified schema.  Matches on root Elements by qname first, then searches
-    deep into the document.
+    Schema query class that searches for Element references in the specified
+    schema.  Matches on root Elements by qname first, then searches deep into
+    the document.
     """
 
     def execute(self, schema):

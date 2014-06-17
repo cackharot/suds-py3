@@ -19,7 +19,6 @@ The plugin module provides classes for implementation
 of suds plugins.
 """
 
-from suds import *
 from logging import getLogger
 
 log = getLogger(__name__)
@@ -182,10 +181,10 @@ class PluginContainer:
     @type ctxclass: dict
     """
 
-    domains = {\
+    domains = {
         'init': (InitContext, InitPlugin),
         'document': (DocumentContext, DocumentPlugin),
-        'message': (MessageContext, MessagePlugin ),
+        'message': (MessageContext, MessagePlugin),
     }
 
     def __init__(self, plugins):

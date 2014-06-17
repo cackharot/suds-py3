@@ -19,8 +19,8 @@ Provides typed unmarshaller classes.
 """
 
 from logging import getLogger
-from suds import *
-from suds.umx import *
+from suds import TypeNotFound
+from suds.umx import Content
 from suds.umx.core import Core
 from suds.resolver import NodeResolver, Frame
 from suds.sudsobject import Factory
@@ -100,8 +100,10 @@ class Typed(Core):
 
     def nillable(self, content):
         resolved = content.type.resolve()
-        return ( content.type.nillable or \
-            (resolved.builtin() and resolved.nillable ) )
+        return (
+            content.type.nillable or
+            (resolved.builtin() and resolved.nillable)
+        )
 
     def append_attribute(self, name, value, content):
         """

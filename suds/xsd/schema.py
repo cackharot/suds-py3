@@ -23,13 +23,11 @@ tranparent referenced type resolution and targeted denormalization.
 """
 
 
-import suds.metrics
-from suds import *
-from suds.xsd import *
-from suds.xsd.sxbuiltin import *
+from suds import objid, Repr
+from suds.xsd import isqref
+from suds.xsd.sxbuiltin import Factory
+from suds.compat import unicode
 from suds.xsd.sxbasic import Factory as BasicFactory
-from suds.xsd.sxbuiltin import Factory as BuiltinFactory
-from suds.xsd.sxbase import SchemaObject
 from suds.xsd.deplist import DepList
 from suds.sax.element import Element
 from suds.sax import splitPrefix, Namespace
@@ -109,7 +107,7 @@ class SchemaCollection:
         for s in self.children:
             for ns in namespaces:
                 tns = s.root.get('targetNamespace')
-                if  tns == ns:
+                if tns == ns:
                     continue
                 for imp in s.root.getChildren('import'):
                     if imp.get('namespace') == ns:
@@ -220,7 +218,7 @@ class Schema:
         if form is None:
             self.form_qualified = False
         else:
-            self.form_qualified = ( form == 'qualified' )
+            self.form_qualified = form == 'qualified'
         if container is None:
             self.build()
             self.open_imports(options)
@@ -260,8 +258,8 @@ class Schema:
     def merge(self, schema):
         """
         Merge the contents from the schema.  Only objects not already contained
-        in this schema's collections are merged.  This is to provide for bidirectional
-        import which produce cyclic includes.
+        in this schema's collections are merged.  This is to provide for
+        bidirectional import which produce cyclic includes.
         @returns: self
         @rtype: L{Schema}
         """
@@ -326,7 +324,8 @@ class Schema:
             indexes[x] = midx
         for x, deps in deplist.sort():
             midx = indexes.get(x)
-            if midx is None: continue
+            if midx is None:
+                continue
             d = deps[midx]
             log.debug('(%s) merging %s <== %s', self.tns[1], Repr(x), Repr(d))
             x.merge(d)
@@ -357,7 +356,7 @@ class Schema:
         if ref is None:
             return True
         else:
-            return ( not self.builtin(ref, context) )
+            return not self.builtin(ref, context)
 
     def builtin(self, ref, context=None):
         """
@@ -371,12 +370,12 @@ class Schema:
         try:
             if isqref(ref):
                 ns = ref[1]
-                return ( ref[0] in Factory.tags and ns.startswith(w3) )
+                return ref[0] in Factory.tags and ns.startswith(w3)
             if context is None:
                 context = self.root
             prefix = splitPrefix(ref)[0]
             prefixes = context.findPrefixes(w3, 'startswith')
-            return ( prefix in prefixes and ref[0] in Factory.tags )
+            return prefix in prefixes and ref[0] in Factory.tags
         except:
             return False
 
@@ -397,7 +396,7 @@ class Schema:
         return Schema(root, baseurl, options)
 
     def str(self, indent=0):
-        tab = '%*s'%(indent*3, '')
+        tab = '%*s' % (indent * 3, '')
         result = []
         result.append('%s%s' % (tab, self.id))
         result.append('%s(raw)' % tab)
@@ -417,6 +416,3 @@ class Schema:
 
     def __unicode__(self):
         return self.str()
-
-
-

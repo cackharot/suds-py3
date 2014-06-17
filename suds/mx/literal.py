@@ -19,8 +19,8 @@ Provides literal I{marshaller} classes.
 """
 
 from logging import getLogger
-from suds import *
-from suds.mx import *
+from suds import TypeNotFound, Object
+from suds.mx import Content
 from suds.mx.core import Core
 from suds.mx.typer import Typer
 from suds.resolver import GraphResolver, Frame
@@ -41,7 +41,6 @@ Content.extensions.append('real')
 Content.extensions.append('ancestry')
 
 
-
 class Typed(Core):
     """
     A I{typed} marshaller.
@@ -58,7 +57,8 @@ class Typed(Core):
         @param schema: A schema object
         @type schema: L{xsd.schema.Schema}
         @param xstq: The B{x}ml B{s}chema B{t}ype B{q}ualified flag indicates
-            that the I{xsi:type} attribute values should be qualified by namespace.
+            that the I{xsi:type} attribute values should be qualified by
+            namespace.
         @type xstq: bool
         """
         Core.__init__(self)
@@ -133,9 +133,9 @@ class Typed(Core):
         if current == content.type:
             self.resolver.pop()
         else:
-            raise Exception(\
-                'content (end) mismatch: top=(%s) cont=(%s)' % \
-                (current, content))
+            raise Exception('content (end) mismatch: top=(%s) cont=(%s)' % (
+                current,
+                content))
 
     def node(self, content):
         #
@@ -211,15 +211,7 @@ class Typed(Core):
             v = content.value
             if v is None:
                 return True
-            if isinstance(v, (list,tuple)) and len(v) == 0:
-                return True
-        return False
-
-    def optional(self, content):
-        if content.type.optional():
-            return True
-        for a in content.ancestry:
-            if a.optional():
+            if isinstance(v, (list, tuple)) and len(v) == 0:
                 return True
         return False
 

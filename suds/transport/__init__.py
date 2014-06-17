@@ -25,6 +25,7 @@ class TransportError(Exception):
         self.httpcode = httpcode
         self.fp = fp
 
+
 class Request:
     """
     A transport request

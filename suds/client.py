@@ -22,24 +22,21 @@ See I{README.txt}
 import suds
 import suds.metrics as metrics
 from http.cookiejar import CookieJar
-from suds import *
+from suds import (TypeNotFound, BuildError, ServiceNotFound, PortNotFound,
+                  MethodNotFound, WebFault)
 from suds.reader import DefinitionsReader
 from suds.transport import TransportError, Request
-#from suds.transport.https import HttpAuthenticated
 from suds.transport.http import HttpAuthenticated
 from suds.servicedefinition import ServiceDefinition
 from suds import sudsobject
 from .sudsobject import Factory as InstFactory
-from .sudsobject import Object
 from suds.resolver import PathResolver
 from suds.builder import Builder
 from suds.wsdl import Definitions
 from suds.cache import ObjectCache
-from suds.sax.document import Document
 from suds.sax.parser import Parser
 from suds.options import Options
 from suds.properties import Unskin
-from urllib.parse import urlparse
 from copy import deepcopy
 from suds.plugin import PluginContainer
 from logging import getLogger
@@ -196,7 +193,6 @@ class Client(object):
         s.append('  version: %s' % suds.__version__)
         s.append(' %s  build: %s' % (build[0], build[1]))
         for sd in self.sd:
-            #s.append('\n\n%s' % unicode(sd))
             s.append('\n\n%s' % sd)
         return ''.join(s)
 
@@ -220,6 +216,7 @@ class Client(object):
         for sd in self.sd:
             s.append('<hr/>%s' % sd.html())
         return ''.join(s)
+
 
 class Factory:
     """
@@ -614,17 +611,15 @@ class SoapClient:
         binding = self.method.binding.input
         soapenv = binding.get_message(self.method, args, kwargs)
         timer.stop()
-        metrics.log.debug(
-                "message for '%s' created: %s",
-                self.method.name,
-                timer)
+        metrics.log.debug("message for '%s' created: %s",
+                          self.method.name,
+                          timer)
         timer.start()
         result = self.send(soapenv)
         timer.stop()
-        metrics.log.debug(
-                "method '%s' invoked: %s",
-                self.method.name,
-                timer)
+        metrics.log.debug("method '%s' invoked: %s",
+                          self.method.name,
+                          timer)
         return result
 
     def send(self, soapenv):
@@ -662,7 +657,7 @@ class SoapClient:
             else:
                 result = self.succeeded(binding, reply.message)
         except TransportError as e:
-            if e.httpcode in (202,204):
+            if e.httpcode in (202, 204):
                 result = None
             else:
                 log.error(self.last_sent())
@@ -676,8 +671,11 @@ class SoapClient:
         @rtype: dict
         """
         action = self.method.soap.action
-        stock = { 'Content-Type' : 'text/xml; charset=utf-8', 'SOAPAction': action }
-        result = dict(stock, **self.options.headers)
+        result = {
+            'Content-Type': 'text/xml; charset=utf-8',
+            'SOAPAction': action
+        }
+        result.update(self.options.headers)
         log.debug('headers = %s', result)
         return result
 
@@ -714,7 +712,7 @@ class SoapClient:
         @param error: The http error message
         @type error: L{transport.TransportError}
         """
-        status, reason = (error.httpcode, tostr(error))
+        status, reason = (error.httpcode, suds.tostr(error))
         reply = error.fp.read()
         log.debug('http failed:\n%s', reply)
         if status == 500:

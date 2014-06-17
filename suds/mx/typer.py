@@ -19,8 +19,7 @@ Provides sx typing classes.
 """
 
 from logging import getLogger
-from suds import *
-from suds.mx import *
+from suds import Object
 from suds.sax import Namespace as NS
 from suds.sax.text import Text
 
@@ -35,21 +34,21 @@ class Typer:
     """
 
     types = {
-        int : ('int', NS.xsdns),
-        #long : ('long', NS.xsdns),
-        float : ('float', NS.xsdns),
-        str : ('string', NS.xsdns),
-        #unicode : ('string', NS.xsdns),
-        Text : ('string', NS.xsdns),
-        bool : ('boolean', NS.xsdns),
-     }
+        int: ('int', NS.xsdns),
+        # long: ('long', NS.xsdns),
+        float: ('float', NS.xsdns),
+        str: ('string', NS.xsdns),
+        # unicode: ('string', NS.xsdns),
+        Text: ('string', NS.xsdns),
+        bool: ('boolean', NS.xsdns),
+    }
 
     @classmethod
     def auto(cls, node, value=None):
         """
-        Automatically set the node's xsi:type attribute based on either I{value}'s
-        class or the class of the node's text.  When I{value} is an unmapped class,
-        the default type (xs:any) is set.
+        Automatically set the node's xsi:type attribute based on either
+        I{value}'s class or the class of the node's text.  When I{value} is an
+        unmapped class, the default type (xs:any) is set.
         @param node: An XML node
         @type node: L{sax.element.Element}
         @param value: An object that is or would be the node's text.
@@ -120,4 +119,3 @@ class Typer:
             return known
         except:
             pass
-

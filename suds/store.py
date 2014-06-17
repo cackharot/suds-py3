@@ -29,9 +29,10 @@ log = getLogger(__name__)
 #
 # Soap section 5 encoding schema.
 #
-encoding = \
-"""<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://schemas.xmlsoap.org/soap/encoding/">
+encoding = """<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:tns="http://schemas.xmlsoap.org/soap/encoding/"
+    targetNamespace="http://schemas.xmlsoap.org/soap/encoding/">
 
  <xs:attribute name="root">
    <xs:annotation>
@@ -547,7 +548,7 @@ class DocumentStore:
     protocol = 'suds'
 
     store = {
-        'schemas.xmlsoap.org/soap/encoding/' : encoding
+        'schemas.xmlsoap.org/soap/encoding/': encoding
     }
 
     def open(self, url):

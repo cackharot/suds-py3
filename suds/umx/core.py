@@ -19,8 +19,8 @@ Provides base classes for XML->object I{unmarshalling}.
 """
 
 from logging import getLogger
-from suds import *
-from suds.umx import *
+from suds.compat import basestring
+from suds.umx import Content
 from suds.umx.attrlist import AttrList
 from suds.sax.text import Text
 from suds.sudsobject import Factory, merge
@@ -28,7 +28,11 @@ from suds.sudsobject import Factory, merge
 
 log = getLogger(__name__)
 
-reserved = { 'class':'cls', 'def':'dfn', }
+reserved = {
+    'class': 'cls',
+    'def': 'dfn',
+}
+
 
 class Core:
     """
@@ -68,11 +72,13 @@ class Core:
     def postprocess(self, content):
         """
         Perform final processing of the resulting data structure as follows:
-          - Mixed values (children and text) will have a result of the I{content.node}.
-          - Simi-simple values (attributes, no-children and text) will have a result of a
-             property object.
-          - Simple values (no-attributes, no-children with text nodes) will have a string
-             result equal to the value of the content.node.getText().
+          - Mixed values (children and text) will have a result of the
+             I{content.node}.
+          - Semi-simple values (attributes, no-children and text) will have a
+             result of a property object.
+          - Simple values (no-attributes, no-children with text nodes) will
+             have a string result equal to the value of the
+             content.node.getText().
         @param content: The current content being unmarshalled.
         @type content: L{Content}
         @return: The post-processed result.
@@ -82,9 +88,11 @@ class Core:
         if len(node.children) and node.hasText():
             return node
         attributes = AttrList(node.attributes)
-        if attributes.rlen() and \
-            not len(node.children) and \
-            node.hasText():
+        if (
+            attributes.rlen() and
+            not len(node.children) and
+            node.hasText()
+        ):
                 p = Factory.property(node.name, node.getText())
                 return merge(content.data, p)
         if len(content.data):
@@ -150,7 +158,7 @@ class Core:
                 if cval is None:
                     setattr(content.data, key, [])
                 else:
-                    setattr(content.data, key, [cval,])
+                    setattr(content.data, key, [cval, ])
             else:
                 setattr(content.data, key, cval)
 
@@ -193,7 +201,7 @@ class Core:
         @return: True if bounded, else False
         @rtype: boolean
         '"""
-        return ( not self.unbounded(content) )
+        return not self.unbounded(content)
 
     def unbounded(self, content):
         """

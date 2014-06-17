@@ -19,8 +19,6 @@ Provides I{marshaller} core classes.
 """
 
 from logging import getLogger
-from suds import *
-from suds.mx import *
 from suds.mx.appender import ContentAppender
 from suds.sax.element import Element
 from suds.sax.document import Document
@@ -56,7 +54,7 @@ class Core:
             content.tag = content.value.__class__.__name__
         document = Document()
         if isinstance(content.value, Property):
-            root = self.node(content)
+            root = self.node(content)  # root is never used?
             self.append(document, content)
         else:
             self.append(document, content)
@@ -155,4 +153,3 @@ class Core:
         @type content: L{Content}
         """
         return False
-

@@ -21,10 +21,10 @@ provide wsdl/xsd named type resolution.
 
 import re
 from logging import getLogger
-from suds import *
+from suds import Repr
 from suds.sax import splitPrefix, Namespace
 from suds.sudsobject import Object
-from suds.xsd.query import BlindQuery, TypeQuery, qualify
+from suds.xsd.query import BlindQuery, qualify
 
 log = getLogger(__name__)
 
@@ -69,7 +69,8 @@ class Resolver:
 
 class PathResolver(Resolver):
     """
-    Resolveds the definition object for the schema type located at the specified path.
+    Resolveds the definition object for the schema type located at the
+    specified path.
     The path may contain (.) dot notation to specify nested types.
     @ivar wsdl: A wsdl object.
     @type wsdl: L{wsdl.Definitions}
@@ -89,7 +90,8 @@ class PathResolver(Resolver):
 
     def find(self, path, resolved=True):
         """
-        Get the definition object for the schema type located at the specified path.
+        Get the definition object for the schema type located at the specified
+        path.
         The path may contain (.) dot notation to specify nested types.
         Actually, the path separator is usually a (.) but can be redefined
         during contruction.
@@ -210,12 +212,13 @@ class PathResolver(Resolver):
             m = self.splitp.match(s, b)
             if m is None:
                 break
-            b,e = m.span()
+            b, e = m.span()
             parts.append(s[b:e])
-            b = e+1
+            b = e + 1
         return parts
 
-    class BadPath(Exception): pass
+    class BadPath(Exception):
+        pass
 
 
 class TreeResolver(Resolver):
@@ -319,8 +322,8 @@ class NodeResolver(TreeResolver):
         """
         @param node: An xml node to be resolved.
         @type node: L{sax.element.Element}
-        @param resolved: A flag indicating that the fully resolved type should be
-            returned.
+        @param resolved: A flag indicating that the fully resolved type should
+            be returned.
         @type resolved: boolean
         @param push: Indicates that the resolved type should be
             pushed onto the stack.
@@ -339,7 +342,7 @@ class NodeResolver(TreeResolver):
             return result
         if push:
             frame = Frame(result, resolved=known, ancestry=ancestry)
-            pushed = self.push(frame)
+            self.push(frame)
         if resolved:
             result = result.resolve()
         return result
@@ -349,13 +352,13 @@ class NodeResolver(TreeResolver):
         Find an attribute type definition.
         @param name: An attribute name.
         @type name: basestring
-        @param resolved: A flag indicating that the fully resolved type should be
-            returned.
+        @param resolved: A flag indicating that the fully resolved type should
+            be returned.
         @type resolved: boolean
         @return: The found schema I{type}
         @rtype: L{xsd.sxbase.SchemaObject}
         """
-        name = '@%s'%name
+        name = '@%s' % name
         parent = self.top().resolved
         if parent is None:
             result, ancestry = self.query(name, node)
@@ -427,7 +430,7 @@ class GraphResolver(TreeResolver):
             known = self.known(object)
         if push:
             frame = Frame(result, resolved=known, ancestry=ancestry)
-            pushed = self.push(frame)
+            self.push(frame)
         if resolved:
             if known is None:
                 result = result.resolve()
@@ -475,8 +478,8 @@ class Frame:
         self.ancestry = ancestry
 
     def __str__(self):
-        return '%s\n%s\n%s' % \
-            (Repr(self.type),
+        return '%s\n%s\n%s' % (
+            Repr(self.type),
             Repr(self.resolved),
             [Repr(t) for t in self.ancestry])
 

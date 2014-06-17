@@ -19,8 +19,7 @@ Contains classes for transport options.
 """
 
 
-from suds.transport import *
-from suds.properties import *
+from suds.properties import Skin, Definition
 
 
 class Options(Skin):
@@ -49,7 +48,7 @@ class Options(Skin):
         domain = __name__
         definitions = [
             Definition('proxy', dict, {}),
-            Definition('timeout', (int,float), 90),
+            Definition('timeout', (int, float), 90),
             Definition('headers', dict, {}),
             Definition('username', str, None),
             Definition('password', str, None),

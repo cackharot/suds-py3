@@ -19,7 +19,8 @@ The I{depsolve} module defines a class for performing dependancy solving.
 """
 
 from logging import getLogger
-from suds import *
+
+from suds import Repr
 
 log = getLogger(__name__)
 
@@ -77,7 +78,6 @@ class DepList:
             while len(self.stack):
                 try:
                     top = self.top()
-                    #ref = top[1].next()
                     ref = next(top[1])
                     refd = self.index.get(ref)
                     if refd is None:
@@ -131,12 +131,11 @@ class DepList:
 if __name__ == '__main__':
     a = ('a', ('x',))
     b = ('b', ('a',))
-    c = ('c', ('a','b'))
+    c = ('c', ('a', 'b'))
     d = ('d', ('c',))
-    e = ('e', ('d','a'))
-    f = ('f', ('e','c','d','a'))
+    e = ('e', ('d', 'a'))
+    f = ('f', ('e', 'c', 'd', 'a'))
     x = ('x', ())
     L = DepList()
     L.add(c, e, d, b, f, a, x)
-    #print [x[0] for x in L.sort()]
     print([item[0] for item in L.sort()])

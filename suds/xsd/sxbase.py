@@ -20,8 +20,9 @@ schema objects.
 """
 
 from logging import getLogger
-from suds import *
-from suds.xsd import *
+from suds import objid, Repr
+from suds.compat import unicode
+from suds.xsd import isqref, Filter, qualify
 from suds.sax.element import Element
 from suds.sax import Namespace
 
@@ -186,7 +187,7 @@ class SchemaObject(object):
         if max.isdigit():
             return (int(max) > 1)
         else:
-            return ( max == 'unbounded' )
+            return max == 'unbounded'
 
     def optional(self):
         """
@@ -197,7 +198,7 @@ class SchemaObject(object):
         min = self.min
         if min is None:
             min = '1'
-        return ( min == '0' )
+        return min == '0'
 
     def required(self):
         """
@@ -205,8 +206,7 @@ class SchemaObject(object):
         @return: True if required, else False
         @rtype: boolean
         """
-        return ( not self.optional() )
-
+        return not self.optional()
 
     def resolve(self, nobuiltin=False):
         """
@@ -399,7 +399,6 @@ class SchemaObject(object):
                 continue
             setattr(self, n, v)
 
-
     def content(self, collection=None, filter=Filter(), history=None):
         """
         Get a I{flattened} list of this nodes contents.
@@ -438,8 +437,8 @@ class SchemaObject(object):
         if self in history:
             return '%s ...' % Repr(self)
         history.append(self)
-        tab = '%*s'%(indent*3, '')
-        result  = []
+        tab = '%*s' % (indent * 3, '')
+        result = []
         result.append('%s<%s' % (tab, self.id))
         for n in self.description():
             if not hasattr(self, n):
@@ -507,9 +506,9 @@ class SchemaObject(object):
 
 class Iter:
     """
-    The content iterator - used to iterate the L{Content} children.  The iterator
-    provides a I{view} of the children that is free of container elements
-    such as <sequence/> and <choice/>.
+    The content iterator - used to iterate the L{Content} children.  The
+    iterator provides a I{view} of the children that is free of container
+    elements such as <sequence/> and <choice/>.
     @ivar stack: A stack used to control nesting.
     @type stack: list
     """

@@ -19,15 +19,15 @@ Provides appender classes for I{marshalling}.
 """
 
 from logging import getLogger
-from suds import *
-from suds.mx import *
+from suds import null, tostr
+from suds.mx import Content
 from suds.sudsobject import footprint
 from suds.sudsobject import Object, Property
 from suds.sax.element import Element
 from suds.sax.text import Text
-from copy import deepcopy
 
 log = getLogger(__name__)
+
 
 class Matcher:
     """
@@ -45,7 +45,7 @@ class Matcher:
 
     def __eq__(self, x):
         if self.cls is None:
-            return ( x is None )
+            return x is None
         else:
             return isinstance(x, self.cls)
 
@@ -114,7 +114,7 @@ class Appender:
         @param marshaller: A marshaller.
         @type marshaller: L{suds.mx.core.Core}
         """
-        self.marshaller  = marshaller
+        self.marshaller = marshaller
 
     def node(self, content):
         """
