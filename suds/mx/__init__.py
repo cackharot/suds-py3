@@ -1,6 +1,6 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the (LGPL) GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 3 of the 
+# published by the Free Software Foundation; either version 3 of the
 # License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -30,9 +30,9 @@ class Content(Object):
     @ivar value: The content's value.
     @type value: I{any}
     """
-    
+
     extensions = []
-    
+
     def __init__(self, tag=None, value=None, **kwargs):
         """
         @param tag: The content tag.
@@ -43,17 +43,16 @@ class Content(Object):
         Object.__init__(self)
         self.tag = tag
         self.value = value
-        for k,v in kwargs.items():
+        for k, v in kwargs.items():
             setattr(self, k, v)
-            
+
     def __getattr__(self, name):
         if name not in self.__dict__:
             if name in self.extensions:
                 v = None
                 setattr(self, name, v)
             else:
-                raise AttributeError(\
-                    'Content has no attribute %s' % name)
+                raise AttributeError('Content has no attribute %s' % name)
         else:
             v = self.__dict__[name]
         return v

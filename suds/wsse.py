@@ -1,6 +1,6 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the (LGPL) GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 3 of the 
+# published by the Free Software Foundation; either version 3 of the
 # License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -18,8 +18,6 @@
 The I{wsse} module provides WS-Security.
 """
 
-from logging import getLogger
-from suds import *
 from suds.sudsobject import Object
 from suds.sax.element import Element
 from suds.sax.date import DateTime, UtcTimezone
@@ -32,18 +30,19 @@ except ImportError:
     from md5 import md5
 
 
-dsns = \
-    ('ds',
-     'http://www.w3.org/2000/09/xmldsig#')
-wssens = \
-    ('wsse', 
-     'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd')
-wsuns = \
-    ('wsu',
-     'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd')
-wsencns = \
-    ('wsenc',
-     'http://www.w3.org/2001/04/xmlenc#')
+dsns = ('ds', 'http://www.w3.org/2000/09/xmldsig#')
+wssens = (
+    'wsse',
+    'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'
+    )
+wsuns = (
+    'wsu',
+    'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd'
+    )
+wsencns = (
+    'wsenc',
+    'http://www.w3.org/2001/04/xmlenc#'
+    )
 
 
 class Security(Object):
@@ -58,7 +57,7 @@ class Security(Object):
     @ivar keys: A list of encryption keys.
     @type keys: TBD
     """
-    
+
     def __init__(self):
         """ """
         Object.__init__(self)
@@ -67,7 +66,7 @@ class Security(Object):
         self.signatures = []
         self.references = []
         self.keys = []
-        
+
     def xml(self):
         """
         Get xml representation of the object.
@@ -83,20 +82,20 @@ class Security(Object):
 
 class Token(Object):
     """ I{Abstract} security token. """
-    
+
     @classmethod
     def now(cls):
         return datetime.now()
-    
+
     @classmethod
     def utc(cls):
         return datetime.utcnow().replace(tzinfo=UtcTimezone())
-    
+
     @classmethod
     def sysdate(cls):
-        utc = DateTime(self.utc())
+        utc = DateTime(cls.utc())
         return str(utc)
-    
+
     def __init__(self):
             Object.__init__(self)
 
@@ -126,7 +125,7 @@ class UsernameToken(Token):
         self.password = password
         self.nonce = None
         self.created = None
-        
+
     def setnonce(self, text=None):
         """
         Set I{nonce} which is arbitraty set of bytes to prevent
@@ -145,7 +144,7 @@ class UsernameToken(Token):
             self.nonce = m.hexdigest()
         else:
             self.nonce = text
-        
+
     def setcreated(self, dt=None):
         """
         Set I{created}.
@@ -157,8 +156,7 @@ class UsernameToken(Token):
             self.created = Token.utc()
         else:
             self.created = dt
-        
-        
+
     def xml(self):
         """
         Get xml representation of the object.
@@ -200,7 +198,7 @@ class Timestamp(Token):
         Token.__init__(self)
         self.created = Token.utc()
         self.expires = self.created + timedelta(seconds=validity)
-        
+
     def xml(self):
         root = Element("Timestamp", ns=wsuns)
         created = Element('Created', ns=wsuns)
