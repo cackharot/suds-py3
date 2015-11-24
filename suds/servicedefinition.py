@@ -255,6 +255,9 @@ class ServiceDefinition:
             log.exception(e)
         return tostr(e)
 
+    def __repr__(self):
+        return self.__str__()
+
     def html(self):
         try:
             return self.description(html=True)

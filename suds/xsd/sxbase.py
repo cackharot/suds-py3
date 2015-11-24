@@ -469,10 +469,10 @@ class SchemaObject(object):
         return ()
 
     def __str__(self):
-        return unicode(self).encode('utf-8')
+        return self.__repr__()
 
     def __unicode__(self):
-        return unicode(self.str())
+         return self.__repr__()
 
     def __repr__(self):
         s = []
@@ -486,7 +486,7 @@ class SchemaObject(object):
             s.append(' %s="%s"' % (n, v))
         s.append(' />')
         myrep = ''.join(s)
-        return myrep.encode('utf-8')
+        return myrep
 
     def __len__(self):
         n = 0
