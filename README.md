@@ -24,6 +24,7 @@ Examples folder contains sample SOAP services in JAVA, .NET, and other platforms
 There will be only one python client that loads WSDL from `http://localhost:8181/soap/helloservice?wsdl` <- This is served by one of the above services.
 
 RUN Any one of the above services
+
 RUN `python examples/test_client.py` to test whether this package is working properly.
 
 **Running JAVA Soap service**
