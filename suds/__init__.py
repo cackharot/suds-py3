@@ -184,6 +184,11 @@ class null:
     """
     pass
 
+class Object(object):
+    """
+    The python 3 base Object
+    """
+    pass
 
 def objid(obj):
     return obj.__class__.__name__ + ':' + hex(id(obj))

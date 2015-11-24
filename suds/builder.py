@@ -20,7 +20,7 @@ The I{builder} module provides an wsdl/xsd defined types factory
 
 from logging import getLogger
 from suds import TypeNotFound
-from compat import basestring
+from .compat import basestring
 from suds.sudsobject import Factory
 
 log = getLogger(__name__)

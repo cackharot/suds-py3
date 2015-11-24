@@ -19,14 +19,11 @@ The I{sxbasic} module provides classes that represent
 I{basic} schema objects.
 """
 
-from logging import getLogger
-from suds import TypeNotFound
-from suds.xsd import Filter, Content
-from suds.xsd.sxbase import NodeFinder, SchemaObject
-from suds.xsd.query import (
-    TypeQuery, GroupQuery, AttrGroupQuery, ElementQuery, AttrQuery,
-)
-from suds.sax import Namespace
+from suds import *
+from suds.xsd import *
+from suds.xsd.sxbase import *
+from suds.xsd.query import *
+from suds.sax import splitPrefix, Namespace
 from suds.transport import TransportError
 from suds.reader import DocumentReader
 from urllib.parse import urljoin

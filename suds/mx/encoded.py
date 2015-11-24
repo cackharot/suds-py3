@@ -19,13 +19,12 @@ Provides encoded I{marshaller} classes.
 """
 
 from logging import getLogger
-from suds import TypeNotFound
-from suds.mx import Content
+from suds import *
+from suds.mx import *
 from suds.mx.literal import Literal
 from suds.mx.typer import Typer
 from suds.sudsobject import Factory, Object
 from suds.xsd.query import TypeQuery
-from suds.xsd.sxbasic import qref
 
 
 log = getLogger(__name__)
