@@ -19,7 +19,7 @@ Fixes by Me
 
 Examples
 ========
-Examples folder contains sample SOAP services in JAVA, .NET, and other platforms (in progress).
+Examples folder contains sample SOAP services in JAVA, .NET WCF.
 
 There will be only one python client that loads WSDL from `http://localhost:8181/soap/helloservice?wsdl` <- This is served by one of the above services.
 
@@ -29,3 +29,6 @@ RUN `python examples/test_client.py` to test whether this package is working pro
 
 **Running JAVA Soap service**
 * `cd examples/java-soap/ && sh run_service.sh`
+
+**Running .NET WCF service**
+* `cd examples/NET45_WCF/ && run_service.bat` <- Run this in Visual Studio developer command prompt
