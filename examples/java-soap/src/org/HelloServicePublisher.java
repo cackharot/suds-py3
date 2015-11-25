@@ -1,18 +1,14 @@
-package org.cackharot.services.publisher;
+package org;
+
+import org.HelloService;
 
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
-import org.cackharot.services.HelloService;
 
-import javax.xml.ws.Binding;
 import javax.xml.ws.Endpoint;
-import javax.xml.ws.handler.Handler;
-import javax.xml.ws.handler.MessageContext;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HelloServicePublisher {
     public static void main(String[] args) throws IOException {
@@ -39,5 +35,4 @@ public class HelloServicePublisher {
         System.out.println(String.format("Starting the service at %s", url));
         System.out.println(String.format("See WSDL at %s?wsdl", url));
     }
-
 }
