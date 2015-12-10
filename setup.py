@@ -2,7 +2,7 @@
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the (LGPL) GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 3 of the 
+# published by the Free Software Foundation; either version 3 of the
 # License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -32,10 +32,10 @@ setup(
 	keywords="soap, wsdl,basic http binding, basic auth",
 	platforms="Python3",
 	classifiers  = [
-	"Classifier: Programming Language :: Python",
-	"Classifier: Programming Language :: Python :: 3",
-	"Classifier: Intended Audience :: Developers",
-	"Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
-	"Classifier: Operating System :: OS Independent",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3",
+	"Intended Audience :: Developers",
+	"License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)",
+	"Operating System :: OS Independent",
 	],
 )
