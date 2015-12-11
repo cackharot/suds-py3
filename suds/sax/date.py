@@ -97,7 +97,7 @@ class Date(object):
         return value
 
     def __str__(self):
-        return unicode(self)
+        return self.value.isoformat()
 
     def __unicode__(self):
         return self.value.isoformat()
@@ -152,7 +152,7 @@ class Time(object):
         return value
 
     def __str__(self):
-        return unicode(self)
+        return self.time.isoformat()
 
     def __unicode__(self):
         return self.time.isoformat()
@@ -209,7 +209,7 @@ class DateTime(object):
         return value
 
     def __str__(self):
-        return unicode(self)
+        return self.value.isoformat()
 
     def __unicode__(self):
         return self.value.isoformat()
@@ -277,7 +277,7 @@ class FixedOffsetTimezone(datetime.tzinfo):
         return datetime.timedelta(0)
 
     def __str__(self):
-        return unicode(self)
+        return 'FixedOffsetTimezone %s' % (self.tzname(None), )
 
     def __unicode__(self):
         return 'FixedOffsetTimezone %s' % (self.tzname(None), )
@@ -302,7 +302,7 @@ class UtcTimezone(FixedOffsetTimezone):
         return 'UTC'
 
     def __str__(self):
-        return unicode(self)
+        return 'UtcTimezone'
 
     def __unicode__(self):
         return 'UtcTimezone'
@@ -361,7 +361,9 @@ class LocalTimezone(datetime.tzinfo):
         return time_tuple.tm_isdst > 0
 
     def __str__(self):
-        return unicode(self)
+        dt = datetime.datetime.now()
+        return 'LocalTimezone %s offset: %s dst: %s' \
+            % (self.tzname(dt), self.utcoffset(dt), self.dst(dt))
 
     def __unicode__(self):
         dt = datetime.datetime.now()
