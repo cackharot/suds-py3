@@ -41,8 +41,8 @@ logging.getLogger('suds.client').setLevel(logging.DEBUG)
 
 def start(url):
     global errors
-    print '\n________________________________________________________________\n' 
-    print 'Test @ ( %s ) %d' % (url, errors)
+    print('\n________________________________________________________________\n') 
+    print('Test @ ( %s ) %d' % (url, errors))
 
 
 def rhqTest():
@@ -52,7 +52,7 @@ def rhqTest():
     url = 'http://localhost.localdomain:7080/rhq-rhq-enterprise-server-ejb3/WebservicesManagerBean?wsdl'
     start(url)
     client = Client(url)
-    print client
+    print(client)
 
     try:
 
@@ -60,7 +60,7 @@ def rhqTest():
         # create name
         #
         name = client.factory.create('name')
-        name.first = u'Jeff'+unichr(1234)
+        name.first = 'Jeff'+chr(1234)
         name.last = 'Ortel &amp;lt; Company'
         #
         # create a phone object using the wsdl
@@ -86,22 +86,22 @@ def rhqTest():
         # create a person object using the wsdl
         #
         person = client.factory.create('person')
-        print person
+        print(person)
         person.name = name
         person.age = 43
         person.phone.append(phoneA)
         person.phone.append(phoneB)
         person.pet.append(dog)
         person.pet.append(cat)
-        print person       
+        print(person)       
         #
         # addPerson()
         #
-        print 'addPersion()'
+        print('addPersion()')
         result = client.service.addPerson(person)
         sent = client.last_sent()
         rcvd = client.last_received()
-        print '\nreply(\n%s\n)\n' % result
+        print('\nreply(\n%s\n)\n' % result)
         #
         # create a new name object used to update the person
         #
@@ -111,110 +111,110 @@ def rhqTest():
         #
         # update the person's name (using the webservice)
         #
-        print 'updatePersion()'
+        print('updatePersion()')
         result = client.service.updatePerson(person, newname)
-        print '\nreply(\n%s\n)\n' % str(result)
+        print('\nreply(\n%s\n)\n' % str(result))
         result = client.service.updatePerson(person, None)
-        print '\nreply(\n%s\n)\n' % str(result)
-    except WebFault, f:
+        print('\nreply(\n%s\n)\n' % str(result))
+    except WebFault as f:
         errors += 1
-        print f
-        print f.fault
-    except Exception, e:
+        print(f)
+        print(f.fault)
+    except Exception as e:
         errors += 1
-        print e
+        print(e)
         tb.print_exc()
   
     try:
-        print "echo('this is cool')"
+        print("echo('this is cool')")
         result = client.service.echo('this is cool')
-        print '\nreply( %s )\n' % str(result)
-        print 'echo(None)'
+        print('\nreply( %s )\n' % str(result))
+        print('echo(None)')
         result = client.service.echo(None)
-        print '\nreply( %s )\n' % str(result)
-    except WebFault, f:
+        print('\nreply( %s )\n' % str(result))
+    except WebFault as f:
         errors += 1
-        print f
-        print f.fault
-    except Exception, e:
+        print(f)
+        print(f.fault)
+    except Exception as e:
         errors += 1
-        print e
+        print(e)
         tb.print_exc()
         
     try:
-        print 'hello()'
+        print('hello()')
         result = client.service.hello()
-        print '\nreply( %s )\n' % str(result)
-    except WebFault, f:
+        print('\nreply( %s )\n' % str(result))
+    except WebFault as f:
         errors += 1
-        print f
-        print f.fault
-    except Exception, e:
+        print(f)
+        print(f.fault)
+    except Exception as e:
         errors += 1
-        print e
+        print(e)
         tb.print_exc()
 
     try:
-        print 'testVoid()'
+        print('testVoid()')
         result = client.service.testVoid()
-        print '\nreply( %s )\n' % str(result)
-    except WebFault, f:
+        print('\nreply( %s )\n' % str(result))
+    except WebFault as f:
         errors += 1
-        print f
-        print f.fault
-    except Exception, e:
+        print(f)
+        print(f.fault)
+    except Exception as e:
         errors += 1
-        print e
+        print(e)
         tb.print_exc()
 
     try:
         mylist = ['my', 'dog', 'likes', 'steak']
-        print 'testListArgs(%s)' % mylist
+        print('testListArgs(%s)' % mylist)
         result = client.service.testListArg(mylist)
-        print '\nreply( %s )\n' % str(result)
-    except WebFault, f:
+        print('\nreply( %s )\n' % str(result))
+    except WebFault as f:
         errors += 1
-        print f
-        print f.fault
-    except Exception, e:
+        print(f)
+        print(f.fault)
+    except Exception as e:
         errors += 1
-        print e
+        print(e)
         tb.print_exc()
     
     try:
         s = 'hello'
         for n in range(0, 3):
-            print 'getList(%s, %d)' % (s, n)
+            print('getList(%s, %d)' % (s, n))
             result = client.service.getList(s, n)
-            print '\nreply( %s )\n' % str(result)
+            print('\nreply( %s )\n' % str(result))
             if len(result) != n:
                 errors += 1
-                print 'expected (%d), reply (%d)' % (n, len(result))
-    except WebFault, f:
+                print('expected (%d), reply (%d)' % (n, len(result)))
+    except WebFault as f:
         errors += 1
-        print f
-        print f.fault
-    except Exception, e:
+        print(f)
+        print(f.fault)
+    except Exception as e:
         errors += 1
-        print e
+        print(e)
         tb.print_exc()
     
     try:
-        print 'testExceptions()' 
+        print('testExceptions()') 
         result = client.service.testExceptions()
-        print '\nreply( %s )\n' % tostr(result)
+        print('\nreply( %s )\n' % tostr(result))
         raise Exception('Fault expected and not raised')
-    except WebFault, f:
-        print f
-        print f.fault
-        print f.document
-    except Exception, e:
+    except WebFault as f:
+        print(f)
+        print(f.fault)
+        print(f.document)
+    except Exception as e:
         errors += 1
-        print e
+        print(e)
         tb.print_exc()
 
         
 if __name__ == '__main__':
     errors = 0
     rhqTest()
-    print '\nFinished: errors=%d' % errors
+    print('\nFinished: errors=%d' % errors)
