@@ -1,6 +1,6 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the (LGPL) GNU Lesser General Public License as
-# published by the Free Software Foundation; either version 3 of the 
+# published by the Free Software Foundation; either version 3 of the
 # License, or (at your option) any later version.
 #
 # This program is distributed in the hope that it will be useful,
@@ -31,11 +31,12 @@ from suds.sudsobject import Object
 from suds.transport.https import HttpAuthenticated
 from suds.plugin import *
 
-errors = 0
-
 credentials = dict(username='jortel', password='abc123')
 
 setup_logging()
+
+# url = 'http://localhost:8081/axis/services/basic-rpc-encoded?wsdl'
+url = 'http://127.0.0.1:8181/soap/helloservice?wsdl'
 
 
 class MyInitPlugin(InitPlugin):
@@ -43,34 +44,34 @@ class MyInitPlugin(InitPlugin):
     def initialized(self, context):
         print('PLUGIN (init): initialized: ctx=%s' % context.__dict__)
 
-    
+
 class MyDocumentPlugin(DocumentPlugin):
-    
+
     def loaded(self, context):
         print('PLUGIN (document): loaded: ctx=%s' % context.__dict__)
 
     def parsed(self, context):
         print('PLUGIN (document): parsed: ctx=%s' % context.__dict__)
 
-        
+
 class MyMessagePlugin(MessagePlugin):
-        
+
     def marshalled(self, context):
         print('PLUGIN (message): marshalled: ctx=%s' % context.__dict__)
-    
+
     def sending(self, context):
         print('PLUGIN (message): sending: ctx=%s' % context.__dict__)
 
     def received(self, context):
         print('PLUGIN (message): received: ctx=%s' % context.__dict__)
-        
+
     def parsed(self, context):
         print('PLUGIN (message): parsed: ctx=%s' % context.__dict__)
-        
+
     def unmarshalled(self, context):
         print('PLUGIN: (massage): unmarshalled: ctx=%s' % context.__dict__)
-        
-        
+
+
 myplugins = (
     MyInitPlugin(),
     MyDocumentPlugin(),
@@ -80,12 +81,10 @@ myplugins = (
 #logging.getLogger('suds.client').setLevel(logging.DEBUG)
 
 def start(url):
-    global errors
-    print('\n________________________________________________________________\n') 
-    print('Test @ ( %s )\nerrors = %d\n' % (url, errors))
+    print('\n________________________________________________________________\n')
+    print('Test @ ( %s )\n' % url)
 
-try:
-    url = 'http://localhost:8081/axis/services/basic-rpc-encoded?wsdl'
+def test1():
     start(url)
     t = HttpAuthenticated(**credentials)
     client = Client(url, transport=t, cache=None, plugins=myplugins)
@@ -137,7 +136,7 @@ try:
     print('addPersion()')
     result = client.service.addPerson(person)
     print('\nreply(\n%s\n)\n' % str(result))
-    
+
     #
     # Async
     #
@@ -149,7 +148,7 @@ try:
     error.httpcode = '500'
     client.options.nosend=False
 #    request.failed(error)
-    
+
     #
     #
     # create a new name object used to update the person
@@ -174,17 +173,9 @@ try:
     print('\nreply(\n%s\n)\n' % str(result))
     result = client.service.updatePerson(ap, None)
     print('\nreply(\n%s\n)\n' % str(result))
-except WebFault as f:
-    errors += 1
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
-    
-try:
-    url = 'http://localhost:8081/axis/services/basic-rpc-encoded?wsdl'
+
+
+def test2():
     start(url)
     t = HttpAuthenticated(**credentials)
     client = Client(url, transport=t, cache=None)
@@ -237,58 +228,30 @@ try:
     print('addPersion()')
     result = client.service.addPerson(person)
     print('\nreply(\n%s\n)\n' % str(result))
-except WebFault as f:
-    errors += 1
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
-    
-try:
+
+
+def test3():
     print("echo(' this is cool ')")
     result = client.service.echo('this is cool')
     print('\nreply( "%s" )\n' % str(result))
     print('echo(None)')
     result = client.service.echo(None)
     print('\nreply( "%s" )\n' % str(result))
-except WebFault as f:
-    errors += 1
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
-    
-try:
+
+
+def test4():
     print('hello()')
     result = client.service.hello()
     print('\nreply( %s )\n' % str(result))
-except WebFault as f:
-    errors += 1
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
 
-try:
+
+def test5():
     print('testVoid()')
     result = client.service.getVoid()
     print('\nreply( %s )\n' % str(result))
-except WebFault as f:
-    errors += 1
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
 
-try:
+
+def test6():
     print('** new style arrays **')
     words = ['my', 'dog', 'likes', 'steak']
     result = client.service.printList(words)
@@ -300,58 +263,27 @@ try:
     array.item = ['my', 'dog', 'likes', 'steak']
     result = client.service.printList(array)
     print('\nreply( %s )\n' % str(result))
-except WebFault as f:
-    errors += 1
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
 
-try:
+
+def test7():
     s = 'hello'
     for n in range(0, 3):
         print('getList(%s, %d)' % (s, n))
         result = client.service.getList(s, n)
         print('\nreply( %s )\n' % str(result))
         assert ( isinstance(result, list) and len(result) == n )
-except WebFault as f:
-    errors += 1
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
 
-try:
-    print('testExceptions()') 
+
+def test8():
+    print('testExceptions()')
     result = client.service.throwException()
     print('\nreply( %s )\n' % tostr(result))
     raise Exception('Fault expected and not raised')
-except WebFault as f:
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
 
-try:
-    url = 'http://localhost:8081/axis/services/basic-rpc-encoded?wsdl'
+
+def test9():
     start(url)
     client = Client(url, faults=False, **credentials)
     print('testExceptions()')
     result = client.service.throwException()
     print('\nreply( %s )\n' % str(result))
-except WebFault as f:
-    errors += 1
-    print(f)
-    print(f.fault)
-except Exception as e:
-    errors += 1
-    print(e)
-    tb.print_exc()
-    
-print('\nFinished: errors=%d' % errors)
