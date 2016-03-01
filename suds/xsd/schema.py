@@ -305,10 +305,11 @@ class Schema:
         @type options: L{options.Options}
         """
         for imp in self.imports:
-            self.__already_imported.setdefault(imp.location, 0)
-            if self.__already_imported[imp.location] > 1:
-                continue
-            self.__already_imported[imp.location] += 1
+            if imp.location:
+                self.__already_imported.setdefault(imp.location, 0)
+                if self.__already_imported[imp.location] > 1:
+                    continue
+                self.__already_imported[imp.location] += 1
 
             imported = imp.open(options)
             if imported is None:
