@@ -188,7 +188,7 @@ class FileCache(Cache):
     def put(self, id, bfr):
         try:
             fn = self.__fn(id)
-            f = self.open(fn, 'w')
+            f = self.open(fn, 'wb')
             f.write(bfr)
             f.close()
             return bfr

@@ -294,6 +294,8 @@ class Schema:
         schema.merged = True
         return self
 
+    __already_imported = {}
+
     def open_imports(self, options):
         """
         Instruct all contained L{sxbasic.Import} children to import
@@ -303,6 +305,11 @@ class Schema:
         @type options: L{options.Options}
         """
         for imp in self.imports:
+            self.__already_imported.setdefault(imp.location, 0)
+            if self.__already_imported[imp.location] > 1:
+                continue
+            self.__already_imported[imp.location] += 1
+
             imported = imp.open(options)
             if imported is None:
                 continue

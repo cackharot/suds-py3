@@ -129,6 +129,8 @@ class Parser:
             metrics.log.debug('sax (%s) duration: %s', file, timer)
             return handler.nodes[0]
         if string is not None:
+            if isinstance(string, str):
+                string = string.encode()
             parseString(string, handler)
             timer.stop()
             metrics.log.debug('%s\nsax duration: %s', string, timer)
