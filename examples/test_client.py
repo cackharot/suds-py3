@@ -12,9 +12,10 @@ def set_log():
     logging.getLogger('suds.transport').setLevel(logging.DEBUG)
 
 def call_service(url):
-    # set_log()
     client = Client(url, username='bob', password='catbob')
+    do_call_service(client, url)
 
+def do_call_service(client, url):
     print("Calling: sayHello()")
     result = client.service.sayHello('Username')
 
@@ -40,9 +41,12 @@ def test(url):
                 print(client.service[0][m]())
 
 if __name__ == '__main__':
+    # set_log()
     url = 'http://localhost:8181/soap/helloservice?wsdl'
     if len(sys.argv) > 1:
         url = sys.argv[1]
 
     call_service(url)
     # test('http://dati.meteotrentino.it/service.asmx?WSDL')
+    client1 = Client("http://127.0.0.1:8181/soap/infoservice?wsdl", username='bob', password='catbob')
+    print(client1.service.getInfo("Bob"))

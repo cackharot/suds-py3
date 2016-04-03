@@ -1,6 +1,7 @@
 package org;
 
 import org.HelloService;
+import org.InfoService;
 
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpContext;
@@ -12,12 +13,18 @@ import java.net.InetSocketAddress;
 
 public class HelloServicePublisher {
     public static void main(String[] args) throws IOException {
-        Endpoint endpoint = Endpoint.create(new HelloService());
-
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8181), 0);
         server.start();
 
-        HttpContext context = server.createContext("/soap/helloservice");
+        Endpoint endpoint = Endpoint.create(new HelloService());
+        Endpoint endpoint_info = Endpoint.create(new InfoService());
+
+        publishService(server, endpoint, "/soap/helloservice");
+        publishService(server, endpoint_info, "/soap/infoservice");
+    }
+
+    private static void publishService(HttpServer server, Endpoint endpoint, String path) {
+        HttpContext context = server.createContext(path);
 
         context.setAuthenticator(new BasicAuthenticator("test") {
             @Override
