@@ -10,6 +10,7 @@ def set_log():
     logging.basicConfig(level=logging.INFO)
     logging.getLogger('suds.client').setLevel(logging.DEBUG)
     logging.getLogger('suds.transport').setLevel(logging.DEBUG)
+    # logging.getLogger('suds.xsd.schema').setLevel(logging.DEBUG)
 
 def call_service(url):
     client = Client(url, username='bob', password='catbob')
@@ -50,3 +51,9 @@ if __name__ == '__main__':
     # test('http://dati.meteotrentino.it/service.asmx?WSDL')
     client1 = Client("http://127.0.0.1:8181/soap/infoservice?wsdl", username='bob', password='catbob')
     print(client1.service.getInfo("Bob"))
+
+    client2 = Client("http://127.0.0.1:8181/soap/infoservice?wsdl", username='bob', password='catbob')
+    print(client2.service.getInfo("Test2"))
+
+    client3 = Client("http://127.0.0.1:8181/soap/infoservice?wsdl", username='bob', password='catbob')
+    print(client3.service.getInfo("Test3"))
