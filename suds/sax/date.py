@@ -152,10 +152,10 @@ class Time(object):
         return value
 
     def __str__(self):
-        return self.time.isoformat()
+        return self.value.isoformat()
 
     def __unicode__(self):
-        return self.time.isoformat()
+        return self.value.isoformat()
 
 
 class DateTime(object):
