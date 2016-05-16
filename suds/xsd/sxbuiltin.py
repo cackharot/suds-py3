@@ -22,8 +22,8 @@ XSD I{builtin} schema objects.
 from logging import getLogger
 from suds.compat import basestring
 from suds.xsd.sxbase import XBuiltin
-from suds.sax.date import *
-import datetime as dt
+import suds.sax.date  as dt
+import datetime
 
 
 log = getLogger(__name__)
@@ -152,7 +152,7 @@ class XDate(XBuiltin):
             else:
                 return None
         else:
-            if isinstance(value, dt.date):
+            if isinstance(value, datetime.date):
                 return str(dt.Date(value))
             else:
                 return value
@@ -184,12 +184,12 @@ class XDateTime(XBuiltin):
     def translate(self, value, topython=True):	    
         if topython:
             if isinstance(value, basestring) and len(value):
-                return DateTime(value).value
+                return dt.DateTime(value).value
             else:
                 return None
         else:
-            if isinstance(value, dt.datetime):
-                return str(DateTime(value))
+            if isinstance(value, datetime.datetime):
+                return str(dt.DateTime(value))
             else:
                 return value
 
