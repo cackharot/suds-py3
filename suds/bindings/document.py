@@ -61,6 +61,8 @@ class Document(Binding):
             else:
                 value = kwargs.get(pd[0])
             n += 1
+            if pd[2] and value is None:
+                continue
             p = self.mkparam(method, pd, value)
             if p is None:
                 continue
@@ -124,12 +126,7 @@ class Document(Binding):
             for child, ancestry in resolved:
                 if child.isattr():
                     continue
-                if self.bychoice(ancestry):
-                    log.debug('%s\ncontained by <choice/>, excluded as param for %s()',
-                              child,
-                              method.name)
-                    continue
-                result.append((child.name, child))
+                result.append((child.name, child, self.bychoice(ancestry)))
         return result
 
     def returned_types(self, method):
