@@ -148,12 +148,12 @@ class XDate(XBuiltin):
     def translate(self, value, topython=True):
         if topython:
             if isinstance(value, basestring) and len(value):
-                return dt.Date(value).value
+                return dt.datetime.strptime(value, '%Y-%m-%d').date()
             else:
                 return None
         else:
             if isinstance(value, datetime.date):
-                return str(dt.Date(value))
+                return '{:%Y-%m-%d}'.format(value)
             else:
                 return value
 
