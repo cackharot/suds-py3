@@ -3,27 +3,36 @@ suds-py3
 
 Mirror of http://svn.fedorahosted.org/svn/suds/trunk/ supporting Python3 and some fixes.
 
-Overview
----------
+## Overview
 The "Suds" web services client is a lightweight soap-based client for python the is licensed under LGPL.
 
 For details, visit:
   * Project site: https://fedorahosted.org/suds/
   * Documentation https://fedorahosted.org/suds/wiki/Documentation
 
+## Installation
+```
+pip3 install suds-py3
+```
 
-Fixes by Me
-===========
+## Sample usage
+```
+from suds.client import Client
+client = Client('http://localhost:8181/soap/helloservice?wsdl', username='bob', password='catbob')
+result = client.service.sayHello('bob')
+# result -> "Hello, bob!"
+```
+
+### Fixes by Me
 1. Applied some changes to make it work with python 3
 2. Tested with .NET WCF basicHttpBinding with BasicAuthentication
 
-Examples
-========
+### Examples
 Examples folder contains sample SOAP services in JAVA, .NET WCF.
 
-There will be only one python client that loads WSDL from `http://localhost:8181/soap/helloservice?wsdl` <- This is served by one of the above services.
+Example has a python client that loads WSDL from `http://localhost:8181/soap/helloservice?wsdl` <- This is served by one of the below services.
 
-RUN Any one of the above services
+RUN Any one of the JAVA/.NET WCF services
 
 RUN `python examples/test_client.py` to test whether this package is working properly.
 
