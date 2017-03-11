@@ -189,7 +189,7 @@ class Client(object):
     def __str__(self):
         s = ['\n']
         build = suds.__build__.split()
-        s.append('Suds ( https://fedorahosted.org/suds/ )')
+        s.append('Suds ( https://github.com/cackharot/suds-py3 )')
         s.append('  version: %s' % suds.__version__)
         s.append(' %s  build: %s' % (build[0], build[1]))
         for sd in self.sd:
@@ -199,7 +199,7 @@ class Client(object):
     def __unicode__(self):
         s = ['\n']
         build = suds.__build__.split()
-        s.append('Suds ( https://fedorahosted.org/suds/ )')
+        s.append('Suds ( https://github.com/cackharot/suds-py3 )')
         s.append('  version: %s' % suds.__version__)
         s.append(' %s  build: %s' % (build[0], build[1]))
         for sd in self.sd:

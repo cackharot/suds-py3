@@ -211,8 +211,14 @@ class ServiceDefinition:
         @rtype: str
         """
         s = []
-        indent = lambda n: '<p>%*s' % (n * 3, ' ')
-        s.append('Service ( %s ) tns="%s"' % (self.service.name, self.wsdl.tns[1]))
+        if html:
+            indent = lambda n: '<p>%*s' % (n * 3, ' ')
+            line = '<hr/>'
+        else:
+            indent = lambda n: '\n%*s' % (n * 3, ' ')
+            line = '\n' + '-'*80
+        s.append('Service ( %s ) tns="%s"' %
+                 (self.service.name, self.wsdl.tns[1]))
         s.append(indent(1))
         s.append('Prefixes (%d)' % len(self.prefixes))
         for p in self.prefixes:
@@ -245,7 +251,7 @@ class ServiceDefinition:
             for t in self.types:
                 s.append(indent(4))
                 s.append(self.xlate(t[0]))
-        s.append('<hr/>')
+        s.append(line)
         return ''.join(s)
 
     def __str__(self):
