@@ -15,11 +15,40 @@
 # written by: Jeff Ortel ( jortel@redhat.com )
 
 import sys
-import logging
+sys.path.append('../')
 
-def setup_logging():
-    if sys.version_info < (2, 5):
-        fmt = '%(asctime)s [%(levelname)s] @%(filename)s:%(lineno)d\n%(message)s\n'
-    else:
-        fmt = '%(asctime)s [%(levelname)s] %(funcName)s() @%(filename)s:%(lineno)d\n%(message)s\n'
-    logging.basicConfig(level=logging.INFO, format=fmt)
+import logging
+import traceback as tb
+import urllib.request, urllib.error, urllib.parse
+import suds.metrics as metrics
+import traceback as tb
+from tests import *
+from suds import WebFault
+from suds.client import Client
+
+errors = 0
+
+setup_logging()
+
+#logging.getLogger('suds.client').setLevel(logging.DEBUG)
+
+def start(url):
+    print('\n________________________________________________________________\n') 
+    print('Test @ ( %s )' % url)
+    
+try:
+    url = 'http://localhost:9090/jasperserver-pro/services/repository?wsdl'
+    start(url)
+    client = Client(url, username='jeff', password='ortel')
+    print(client)
+    print(client.service.list(''))
+except WebFault as f:
+    errors += 1
+    print(f)
+    print(f.fault)
+except Exception as e:
+    errors += 1
+    print(e)
+    tb.print_exc()
+
+print('\nFinished: errors = %d' % errors)
