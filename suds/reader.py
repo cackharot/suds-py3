@@ -17,6 +17,8 @@
 """
 Contains xml document reader classes.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
+
 import hashlib
 from logging import getLogger
 

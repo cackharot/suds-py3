@@ -17,6 +17,7 @@
 """
 The I{wsse} module provides WS-Security.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from suds.sudsobject import Object
 from suds.sax.element import Element

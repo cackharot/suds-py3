@@ -17,6 +17,7 @@
 """
 The I{service definition} provides a textual representation of a service.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds import tostr

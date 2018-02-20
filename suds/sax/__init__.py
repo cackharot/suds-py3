@@ -28,6 +28,7 @@ containing the prefix and the URI.  Eg: I{('tns', 'http://myns')}
     encode/decode strings.
 @type encoder: L{Encoder}
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from suds.sax.enc import Encoder
 

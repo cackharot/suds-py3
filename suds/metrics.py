@@ -18,6 +18,7 @@
 The I{metrics} module defines classes and other resources
 designed for collecting and reporting performance metrics.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 import time
 from logging import getLogger

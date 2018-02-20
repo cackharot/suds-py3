@@ -17,6 +17,7 @@
 """
 Provides XML I{special character} encoder classes.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 import re
 

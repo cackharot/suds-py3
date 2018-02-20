@@ -18,6 +18,7 @@
 The I{sxbase} module provides I{base} classes that represent
 schema objects.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds import objid, Repr

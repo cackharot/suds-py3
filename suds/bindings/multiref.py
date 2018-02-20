@@ -17,6 +17,7 @@
 """
 Provides classes for handling soap multirefs.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 

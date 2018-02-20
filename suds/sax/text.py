@@ -17,11 +17,16 @@
 """
 Contains XML text classes.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from suds import sax
 
+try:
+    unicode = unicode
+except NameError:
+    unicode = str
 
-class Text(str):
+class Text(unicode):
     """
     An XML text object used to represent text content.
     @ivar lang: The (optional) language flag.
