@@ -17,6 +17,7 @@
 """
 Provides classes for the (WS) SOAP I{rpc/literal} and I{rpc/encoded} bindings.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds.mx.encoded import Encoded as MxEncoded

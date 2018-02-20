@@ -20,7 +20,7 @@ Properties classes.
 from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
-from .utils import is_builtin
+from suds.utils import is_builtin
 
 log = getLogger(__name__)
 

@@ -23,9 +23,9 @@ from __future__ import absolute_import, print_function, division, unicode_litera
 
 from logging import getLogger
 
-from . import tostr
-from .compat import basestring
-from .utils import is_builtin
+from suds import tostr
+from suds.compat import basestring
+from suds.utils import is_builtin
 
 log = getLogger(__name__)
 

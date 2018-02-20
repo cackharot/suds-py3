@@ -21,7 +21,7 @@ from __future__ import absolute_import, print_function, division, unicode_litera
 
 from logging import getLogger
 from suds import TypeNotFound
-from .compat import basestring
+from suds.compat import basestring
 from suds.sudsobject import Factory
 
 log = getLogger(__name__)
