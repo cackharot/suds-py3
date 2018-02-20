@@ -21,6 +21,7 @@ is the denormalized, objectified and intelligent view of the schema.
 Most of the I{value-add} provided by the model is centered around
 tranparent referenced type resolution and targeted denormalization.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds.compat import basestring

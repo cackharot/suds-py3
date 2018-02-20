@@ -17,6 +17,7 @@
 """
 Provides XML I{element} classes.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds.compat import unicode, basestring

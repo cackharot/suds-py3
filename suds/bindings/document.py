@@ -17,6 +17,7 @@
 """
 Provides classes for the (WS) SOAP I{document/literal}.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds.bindings.binding import Binding

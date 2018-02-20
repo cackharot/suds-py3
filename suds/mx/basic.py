@@ -17,6 +17,7 @@
 """
 Provides basic I{marshaller} classes.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds.mx import Content

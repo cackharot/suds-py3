@@ -18,6 +18,7 @@
 The I{sxbasic} module provides classes that represent
 I{basic} schema objects.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from suds import *
 from suds.xsd import *
@@ -26,7 +27,10 @@ from suds.xsd.query import *
 from suds.sax import splitPrefix, Namespace
 from suds.transport import TransportError
 from suds.reader import DocumentReader
-from urllib.parse import urljoin
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 
 
 log = getLogger(__name__)

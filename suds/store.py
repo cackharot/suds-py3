@@ -19,6 +19,7 @@ Contains XML text for documents to be distributed
 with the suds lib.  Also, contains classes for accessing
 these documents.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from io import StringIO
 from logging import getLogger

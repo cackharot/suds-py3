@@ -17,6 +17,7 @@
 """
 Provides base classes for XML->object I{unmarshalling}.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds.compat import basestring

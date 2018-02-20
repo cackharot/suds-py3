@@ -19,6 +19,7 @@ The I{sudsobject} module provides a collection of suds objects
 that are primarily used for the highly dynamic interactions with
 wsdl/xsd defined types.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 

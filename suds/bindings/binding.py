@@ -17,6 +17,7 @@
 """
 Provides classes for (WS) SOAP bindings.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds import WebFault, TypeNotFound
@@ -38,7 +39,6 @@ from copy import deepcopy
 log = getLogger(__name__)
 
 envns = ('SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/')
-# envns = ('soapenv', 'http://schemas.xmlsoap.org/soap/envelope/')
 
 
 class Binding:

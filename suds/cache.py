@@ -17,7 +17,9 @@
 """
 Contains basic caching classes.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
+import io
 import os
 import suds
 from tempfile import gettempdir as tmp
@@ -199,7 +201,7 @@ class FileCache(Cache):
     def putf(self, id, fp):
         try:
             fn = self.__fn(id)
-            f = self.open(fn, 'w')
+            f = self.open(fn, 'wb')
             f.write(fp.read())
             fp.close()
             f.close()
@@ -260,7 +262,7 @@ class FileCache(Cache):
         Open the cache file making sure the directory is created.
         """
         self.mktmp()
-        return open(fn, *args)
+        return io.open(fn, *args)
 
     def checkversion(self):
         path = os.path.join(self.location, 'version')
@@ -273,7 +275,7 @@ class FileCache(Cache):
                 raise Exception()
         except:
             self.clear()
-            f = self.open(path, 'w')
+            f = self.open(path, 'wb')
             f.write(suds.__version__)
             f.close()
 

@@ -19,6 +19,7 @@ The service proxy provides access to web services.
 
 Replaced by: L{client.Client}
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 
