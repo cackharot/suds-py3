@@ -19,12 +19,13 @@ The service proxy provides access to web services.
 
 Replaced by: L{client.Client}
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 
-from .client import Client
-from .compat import unicode
-from .utils import is_builtin
+from suds.client import Client
+from suds.compat import unicode
+from suds.utils import is_builtin
 log = getLogger(__name__)
 
 

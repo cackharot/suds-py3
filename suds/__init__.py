@@ -18,15 +18,16 @@
 Suds is a lightweight SOAP python client that provides a
 service proxy for Web Services.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
-from .compat import basestring, unicode
+from suds.compat import basestring, unicode
 
 #
 # Project properties
 #
 
-__version__ = '1.3.3.0'
-__build__ = "IN 20170311"
+__version__ = '1.3.3.1'
+__build__ = "IN 20180220"
 
 #
 # Exceptions
@@ -194,4 +195,4 @@ def objid(obj):
     return obj.__class__.__name__ + ':' + hex(id(obj))
 
 
-from .client import Client
+from suds.client import Client

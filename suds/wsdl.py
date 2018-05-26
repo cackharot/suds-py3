@@ -19,6 +19,7 @@ The I{wsdl} module provides an objectification of the WSDL.
 The primary class is I{Definitions} as it represends the root element
 found in the document.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds import objid, TypeNotFound, MethodNotFound
@@ -30,7 +31,10 @@ from suds.xsd.schema import Schema, SchemaCollection
 from suds.xsd.query import ElementQuery
 from suds.sudsobject import Object, Facade, Metadata
 from suds.reader import DocumentReader
-from urllib.parse import urljoin
+try:
+    from urllib.parse import urljoin
+except ImportError:
+    from urlparse import urljoin
 import re
 
 log = getLogger(__name__)

@@ -18,6 +18,7 @@
 The I{sxbuiltin} module provides classes that represent
 XSD I{builtin} schema objects.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds.compat import basestring

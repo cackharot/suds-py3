@@ -18,6 +18,7 @@
 The I{resolver} module provides a collection of classes that
 provide wsdl/xsd named type resolution.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 import re
 from logging import getLogger

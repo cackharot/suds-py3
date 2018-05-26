@@ -17,10 +17,11 @@
 """
 The I{builder} module provides an wsdl/xsd defined types factory
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 from suds import TypeNotFound
-from .compat import basestring
+from suds.compat import basestring
 from suds.sudsobject import Factory
 
 log = getLogger(__name__)

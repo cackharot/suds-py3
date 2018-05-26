@@ -17,6 +17,7 @@
 """
 The I{depsolve} module defines a class for performing dependancy solving.
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 from logging import getLogger
 

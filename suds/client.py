@@ -18,10 +18,17 @@
 The I{2nd generation} service proxy provides access to web services.
 See I{README.txt}
 """
+from __future__ import absolute_import, print_function, division, unicode_literals
+
+
+try:
+    from http.cookiejar import CookieJar
+except ImportError:
+    from cookielib import CookieJar
+from copy import deepcopy
 
 import suds
 import suds.metrics as metrics
-from http.cookiejar import CookieJar
 from suds import (TypeNotFound, BuildError, ServiceNotFound, PortNotFound,
                   MethodNotFound, WebFault)
 from suds.reader import DefinitionsReader
@@ -29,7 +36,7 @@ from suds.transport import TransportError, Request
 from suds.transport.http import HttpAuthenticated
 from suds.servicedefinition import ServiceDefinition
 from suds import sudsobject
-from .sudsobject import Factory as InstFactory
+from suds.sudsobject import Factory as InstFactory
 from suds.resolver import PathResolver
 from suds.builder import Builder
 from suds.wsdl import Definitions
@@ -37,7 +44,6 @@ from suds.cache import ObjectCache
 from suds.sax.parser import Parser
 from suds.options import Options
 from suds.properties import Unskin
-from copy import deepcopy
 from suds.plugin import PluginContainer
 from logging import getLogger
 

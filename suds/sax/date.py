@@ -19,7 +19,7 @@
 The I{date} module provides classes for converstion between XML dates and
 Python objects.
 """
-
+from __future__ import absolute_import, print_function, division, unicode_literals
 
 __all__ = ('Date', 'Time', 'DateTime', 'FixedOffsetTimezone', 'UtcTimezone',
            'LocalTimezone')
