@@ -1,6 +1,8 @@
 suds-py3
 ========
 
+Suds is a lightweight SOAP python client for consuming Web Services.
+
 Mirror of http://svn.fedorahosted.org/svn/suds/trunk/ supporting Python3 and some fixes.
 
 ## Overview
@@ -9,6 +11,25 @@ The "Suds" web services client is a lightweight soap-based client for python the
 For details, visit:
   * Project site: https://fedorahosted.org/suds/
   * Documentation https://fedorahosted.org/suds/wiki/Documentation
+
+Since the original library is no longer supported and documentation also disappeared along with it.
+I'll be hosting the API docs and user docs in https://readthedocs.org/ soon.
+
+## Features
+* No class generation
+* Provides an object API.
+* Reads wsdl at runtime for encoding/decoding
+* Supports the following SOAP binding styles:
+* Document/Literal
+* RPC/Literal
+* RPC/Encoded
+* Provides objectification of WSDL defined:
+* Types ''(objects)''
+* Enumerations
+* Service and type objects provide inspection via ''print''
+* Supports unicode
+* HTTP authentication
+* ''Basic'' WS-Security
 
 ## Installation
 ```
