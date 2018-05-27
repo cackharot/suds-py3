@@ -6,6 +6,7 @@ Suds is a lightweight SOAP python client for consuming Web Services.
 Mirror of http://svn.fedorahosted.org/svn/suds/trunk/ supporting Python3 and some fixes.
 
 ## Overview
+
 The "Suds" web services client is a lightweight soap-based client for python the is licensed under LGPL.
 
 For details, visit:
@@ -13,7 +14,13 @@ For details, visit:
   * Documentation https://fedorahosted.org/suds/wiki/Documentation
 
 Since the original library is no longer supported and documentation also disappeared along with it.
-I'll be hosting the API docs and user docs in https://readthedocs.org/ soon.
+
+A copy of the documentation is hosted at https://suds-py3.readthedocs.io/en/latest/
+
+This is not my original documentation however I have reformatted to sphinx rST style
+and updated few parts to keep the code examples clean and working.
+
+Pull requests are welcome for the `docs`.
 
 ## Features
 * No class generation
@@ -43,10 +50,6 @@ client = Client('http://localhost:8181/soap/helloservice?wsdl', username='bob', 
 result = client.service.sayHello('bob')
 # result -> "Hello, bob!"
 ```
-
-### Fixes by Me
-1. Applied some changes to make it work with python 3
-2. Tested with .NET WCF basicHttpBinding with BasicAuthentication
 
 ### Examples
 Examples folder contains sample SOAP services in JAVA, .NET WCF.
