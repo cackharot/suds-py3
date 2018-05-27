@@ -1,5 +1,6 @@
 suds-py3
 ========
+[![travisci](https://travis-ci.org/cackharot/suds-py3.svg?branch=master)](https://travis-ci.org/cackharot/suds-py3.svg?branch=master)
 [![readthedocs](https://readthedocs.org/projects/suds-py3/badge/?version=latest)](https://readthedocs.org/projects/suds-py3/badge/?version=latest)
 
 Suds is a lightweight SOAP python client for consuming Web Services.
