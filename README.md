@@ -1,5 +1,6 @@
 suds-py3
 ========
+|build-status| |docs|
 
 Suds is a lightweight SOAP python client for consuming Web Services.
 
