@@ -43,7 +43,7 @@ envns = ('SOAP-ENV', 'http://schemas.xmlsoap.org/soap/envelope/')
 
 class Binding:
     """
-    The soap binding class used to process outgoing and imcoming
+    The soap binding class used to process outgoing and incoming
     soap messages per the WSDL port binding.
     @cvar replyfilter: The reply filter function.
     @type replyfilter: (lambda s,r: r)
@@ -94,7 +94,7 @@ class Binding:
         """
         Get parameter definitions.
         Each I{pdef} is a tuple (I{name}, L{xsd.sxbase.SchemaObject})
-        @param method: A servic emethod.
+        @param method: A service method.
         @type method: I{service.Method}
         @return: A collection of parameter definitions
         @rtype: [I{pdef},..]
@@ -185,7 +185,7 @@ class Binding:
 
     def replylist(self, rt, nodes):
         """
-        Construct a I{list} reply.  This mehod is called when it has been
+        Construct a I{list} reply.  This method is called when it has been
             detected
         that the reply is a list.
         @param rt: The return I{type}.
