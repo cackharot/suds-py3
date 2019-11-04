@@ -857,7 +857,7 @@ class Service(NamedObject):
         for p in self.ports:
             for m in p.methods.values():
                 if names is None or m.name in names:
-                    m.location = url
+                    m.location = url.encode('utf-8')
 
     def resolve(self, definitions):
         """
