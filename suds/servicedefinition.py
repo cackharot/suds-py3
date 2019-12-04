@@ -259,7 +259,7 @@ class ServiceDefinition:
             return self.description()
         except Exception as e:
             log.exception(e)
-        return tostr(e)
+            return tostr(e)
 
     def __repr__(self):
         return self.__str__()
@@ -269,4 +269,4 @@ class ServiceDefinition:
             return self.description(html=True)
         except Exception as e:
             log.exception(e)
-        return tostr(e)
+            return tostr(e)
