@@ -160,7 +160,7 @@ class FileCache(Cache):
         @type duration: {unit:value}
         """
         if len(duration) == 1:
-            arg = [x[0] for x in duration.items()]
+            arg = list(duration.items())[0]
             if not arg[0] in self.units:
                 raise Exception('must be: %s' % str(self.units))
             self.duration = arg
@@ -199,11 +199,11 @@ class FileCache(Cache):
     def putf(self, id, fp):
         try:
             fn = self.__fn(id)
-            f = self.open(fn, 'w')
+            f = self.open(fn, 'wb')
             f.write(fp.read())
             fp.close()
             f.close()
-            return open(fn)
+            return open(fn, 'rb')
         except:
             log.debug(id, exc_info=1)
             return fp
@@ -221,7 +221,7 @@ class FileCache(Cache):
         try:
             fn = self.__fn(id)
             self.validate(fn)
-            return self.open(fn)
+            return self.open(fn, 'rb')
         except:
             pass
 
@@ -265,15 +265,14 @@ class FileCache(Cache):
     def checkversion(self):
         path = os.path.join(self.location, 'version')
         try:
-
-            f = self.open(path)
+            f = self.open(path, 'rt')
             version = f.read()
             f.close()
             if version != suds.__version__:
                 raise Exception()
         except:
             self.clear()
-            f = self.open(path, 'w')
+            f = self.open(path, 'wt')
             f.write(suds.__version__)
             f.close()
 
