@@ -265,15 +265,14 @@ class FileCache(Cache):
     def checkversion(self):
         path = os.path.join(self.location, 'version')
         try:
-
-            f = self.open(path)
+            f = self.open(path, 'rt')
             version = f.read()
             f.close()
             if version != suds.__version__:
                 raise Exception()
         except:
             self.clear()
-            f = self.open(path, 'w')
+            f = self.open(path, 'wt')
             f.write(suds.__version__)
             f.close()
 
