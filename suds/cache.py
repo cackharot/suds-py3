@@ -160,7 +160,7 @@ class FileCache(Cache):
         @type duration: {unit:value}
         """
         if len(duration) == 1:
-            arg = [x[0] for x in duration.items()]
+            arg = list(duration.items())[0]
             if not arg[0] in self.units:
                 raise Exception('must be: %s' % str(self.units))
             self.duration = arg
