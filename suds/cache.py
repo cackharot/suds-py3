@@ -199,11 +199,11 @@ class FileCache(Cache):
     def putf(self, id, fp):
         try:
             fn = self.__fn(id)
-            f = self.open(fn, 'w')
+            f = self.open(fn, 'wb')
             f.write(fp.read())
             fp.close()
             f.close()
-            return open(fn)
+            return open(fn, 'rb')
         except:
             log.debug(id, exc_info=1)
             return fp
