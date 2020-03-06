@@ -49,7 +49,7 @@ class Reader:
         Mangle the name by hashing the I{name} and appending I{x}.
         @return: the mangled name.
         """
-        h = hashlib.md5(name.encode('utf8')).hexdigest()
+        h = hashlib.sha256(name.encode('utf8')).hexdigest()
         return '%s-%s' % (h, x)
 
 

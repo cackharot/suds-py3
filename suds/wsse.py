@@ -24,10 +24,11 @@ from suds.sax.date import DateTime, UtcTimezone
 from datetime import datetime, timedelta
 
 try:
-    from hashlib import md5
+    from hashlib import sha256
 except ImportError:
     # Python 2.4 compatibility
-    from md5 import md5
+    from md5 import md5 as sha56
+
 
 
 dsns = ('ds', 'http://www.w3.org/2000/09/xmldsig#')
@@ -139,7 +140,7 @@ class UsernameToken(Token):
             s.append(self.username)
             s.append(self.password)
             s.append(Token.sysdate())
-            m = md5()
+            m = sha56()
             m.update(':'.join(s).encode("utf-8"))
             self.nonce = m.hexdigest()
         else:
