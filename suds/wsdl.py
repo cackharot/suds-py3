@@ -618,7 +618,7 @@ class Binding(NamedObject):
         if parts is None:
             body.parts = ()
         else:
-            body.parts = re.split('[\s,]', parts)
+            body.parts = re.split(r'[\s,]', parts)
         body.use = root.get('use', default='literal')
         ns = root.get('namespace')
         if ns is None:
