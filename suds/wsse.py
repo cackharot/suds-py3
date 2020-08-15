@@ -27,7 +27,7 @@ try:
     from hashlib import sha256
 except ImportError:
     # Python 2.4 compatibility
-    from md5 import md5 as sha56
+    from md5 import md5 as sha256
 
 
 
@@ -140,7 +140,7 @@ class UsernameToken(Token):
             s.append(self.username)
             s.append(self.password)
             s.append(Token.sysdate())
-            m = sha56()
+            m = sha256()
             m.update(':'.join(s).encode("utf-8"))
             self.nonce = m.hexdigest()
         else:
