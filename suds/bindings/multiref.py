@@ -104,9 +104,10 @@ class MultiRef:
                 self.nodes.append(child)
             id = child.get('id')
             if id is None:
-                continue
-            key = '#%s' % id
-            self.catalog[key] = child
+                self.build_catalog(child)
+            else:                
+                key = '#%s' % id
+                self.catalog[key] = child
 
     def soaproot(self, node):
         """
