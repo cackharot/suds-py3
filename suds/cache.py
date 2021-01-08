@@ -335,17 +335,19 @@ class DocumentCache(FileCache):
 
     def get(self, id):
         try:
-            fp = FileCache.getf(self, id)
-            if fp is None:
-                return None
-            p = Parser()
-            return p.parse(fp)
+            with FileCache.getf(self, id) as fp:
+                if fp is None:
+                    return None
+                p = Parser()
+                return p.parse(fp)
         except:
             FileCache.purge(self, id)
 
     def put(self, id, object):
         if isinstance(object, Element):
-            FileCache.put(self, id, str(object))
+            FileCache.put(self, id, str(object).encode())
+        else:
+            log.warn("WARN: Given object is not an instance of Element. Skipping!")
         return object
 
 
@@ -362,11 +364,11 @@ class ObjectCache(FileCache):
 
     def get(self, id):
         try:
-            fp = FileCache.getf(self, id)
-            if fp is None:
-                return None
-            else:
-                return pickle.load(fp)
+            with FileCache.getf(self, id) as fp:
+                if fp is None:
+                    return None
+                else:
+                    return pickle.load(fp)
         except:
             FileCache.purge(self, id)
 

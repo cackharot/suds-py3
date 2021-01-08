@@ -39,3 +39,5 @@ nosetests.xml
 
 tags
 suds_py3.egg-info/
+dist-bak/
+.vscode/
