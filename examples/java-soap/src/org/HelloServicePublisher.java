@@ -7,7 +7,7 @@ import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
 
-import javax.xml.ws.Endpoint;
+import jakarta.xml.ws.Endpoint;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 

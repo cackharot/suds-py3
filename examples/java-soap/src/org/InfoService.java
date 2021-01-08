@@ -1,7 +1,7 @@
 package org;
 
-import javax.jws.WebMethod;
-import javax.jws.WebService;
+import jakarta.jws.WebService;
+import jakarta.jws.WebMethod;
 import java.util.*;
 
 @WebService
