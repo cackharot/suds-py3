@@ -25,8 +25,8 @@ from .compat import basestring, unicode
 # Project properties
 #
 
-__version__ = '1.4.3.0'
-__build__ = "IN 20201113"
+__version__ = '1.4.4.0'
+__build__ = "IN 20210108"
 
 #
 # Exceptions
