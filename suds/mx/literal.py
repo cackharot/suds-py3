@@ -19,13 +19,13 @@ Provides literal I{marshaller} classes.
 """
 
 from logging import getLogger
-from suds import TypeNotFound, Object
+from suds import TypeNotFound
 from suds.mx import Content
 from suds.mx.core import Core
 from suds.mx.typer import Typer
 from suds.resolver import GraphResolver, Frame
 from suds.sax.element import Element
-from suds.sudsobject import Factory
+from suds.sudsobject import Factory, Object
 
 log = getLogger(__name__)
 
