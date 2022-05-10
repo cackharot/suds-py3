@@ -128,6 +128,8 @@ class Endpoint(object):
         return hash(self.target)
 
     def __getattr__(self, name):
+        if name == "__setstate__": 
+            raise AttributeError
         return getattr(self.target, name)
 
 
