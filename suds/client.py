@@ -646,7 +646,12 @@ class SoapClient:
             else:
                 soapenv = soapenv.plain()
             soapenv = soapenv.encode('utf-8')
-            plugins.message.sending(envelope=soapenv)
+            plugins_soapenv = plugins.message.sending(envelope=soapenv).envelope
+
+            if plugins_soapenv is not None and \
+                    plugins_soapenv != soapenv:
+                soapenv = plugins_soapenv
+
             request = Request(location, soapenv)
             request.headers = self.headers()
             reply = transport.send(request)

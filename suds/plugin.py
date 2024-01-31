@@ -127,7 +127,7 @@ class MessagePlugin(Plugin):
         """
         pass
 
-    def sending(self, context):
+    def sending(self, context: MessageContext):
         """
         Suds will send the specified soap envelope.
         Provides the plugin with the opportunity to inspect/modify
