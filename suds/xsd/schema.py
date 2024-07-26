@@ -306,7 +306,6 @@ class Schema:
             imported = imp.open(options)
             if imported is None:
                 continue
-            imported.open_imports(options)
             log.debug('imported:\n%s', imported)
             self.merge(imported)
 
